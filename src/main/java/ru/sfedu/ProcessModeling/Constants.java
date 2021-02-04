@@ -1,0 +1,8 @@
+package ru.sfedu.ProcessModeling;
+
+public class Constants {
+    public static final float CONSTANT_SPEED_ACTOR = 1f;
+    public static final float MIN_WIDTH = 40;
+    public static final float MIN_HEIGHT = 40;
+    public static final float CONSTANT_SCALE_OBJECTS = 1f;
+}
