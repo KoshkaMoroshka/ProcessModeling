@@ -27,7 +27,7 @@ public class TriangleActor extends Actor {
         g.drawLine((int)x+25, (int)y, (int)x, (int)y-43);*/
         int xm[] = {(int)x, (int)(x+width), (int) (x+width/2)};
         int ym[] = {(int)(y+height), (int)(y+height), (int) y};
-        g.fillPolygon(xm,ym,3);
+        //g.fillPolygon(xm,ym,3);
     }
 
     @Override

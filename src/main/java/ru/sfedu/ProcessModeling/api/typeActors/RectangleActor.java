@@ -20,7 +20,7 @@ public class RectangleActor extends Actor {
         super.draw(g);
 
         g.setColor(Color.BLUE);
-        g.fillRect((int)x,(int)y,(int)width,(int)height);
+        //g.fillRect((int)x,(int)y,(int)width,(int)height);
     }
 
     @Override

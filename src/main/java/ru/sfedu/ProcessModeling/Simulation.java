@@ -7,6 +7,7 @@ import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.TriangleActor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -21,6 +22,9 @@ public class Simulation{
         Simulation simulation = new Simulation();
         simulation.start();
     }
+
+    JPanel invisibleArea = new JPanel();
+
 
     /***
      * This function create and start simulation
@@ -37,9 +41,11 @@ public class Simulation{
     public void createWindow(){
         processField = new ProcessField(this);
         window = new JFrame("ProcessField");
-        window.setSize(500, 500);
+        window.setSize(800, 800);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setContentPane(processField);
+        invisibleArea.setPreferredSize(new Dimension(800, 800));
+        window.add(invisibleArea, BorderLayout.WEST);
         window.setVisible(true);
     }
 
@@ -60,6 +66,9 @@ public class Simulation{
      * Single frame refresh function
      */
     private void tick(){
+        rectangleActor2.x = (float) invisibleArea.getMousePosition().getX();
+        rectangleActor2.y = (float) invisibleArea.getMousePosition().getY();
+        rectangleActor2.color = Color.GREEN;
         for (Actor actor : actors) {
             actor.update();
         }
@@ -69,8 +78,8 @@ public class Simulation{
     /***
      * Create all actor objects
      */
-    public TriangleActor rectangleActor2;
-    public TriangleActor rectangleActor3;
+    public CircleActor rectangleActor2;
+    public CircleActor rectangleActor3;
     private void createInitialActorObject(){
         TriangleActor triangleActor = new TriangleActor(this, 40, 40);
         triangleActor.x = 115;
@@ -87,16 +96,17 @@ public class Simulation{
         RectangleActor rectangleActor1 = new RectangleActor(this, 40, 40);
         rectangleActor1.x = 230;
         rectangleActor1.y = 90;
-        CircleActor circleActor = new CircleActor(this, 40, 40);
-        circleActor.setSpeedX(10f);
-        circleActor.setSpeedY(10f);
+        CircleActor circleActor = new CircleActor(this, 40, 220);
+        circleActor.setSpeedX(2f);
+        circleActor.setSpeedY(2f);
         circleActor.x = 120;
-        circleActor.y = 340;
-        CircleActor circleActor1 = new CircleActor(this, 40, 40);
-        circleActor1.x = 150;
-        circleActor1.y = 300;
-        rectangleActor2 = triangleActor;
-        rectangleActor3 = triangleActor1;
+        circleActor.y = 80;
+        CircleActor circleActor1 = new CircleActor(this, 40, 220);
+        circleActor1.x = 360;
+        circleActor1.y = 320;
+
+        rectangleActor2 = circleActor;
+        rectangleActor3 = circleActor1;
         actors.add(circleActor);
         actors.add(rectangleActor);
         actors.add(rectangleActor1);
