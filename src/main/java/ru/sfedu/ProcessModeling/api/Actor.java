@@ -6,7 +6,7 @@ import java.awt.*;
 
 import static ru.sfedu.ProcessModeling.Constants.CONSTANT_SPEED_ACTOR;
 
-public abstract class Actor extends Collider{
+public abstract class Actor extends RigidObject{
     private float speedX = CONSTANT_SPEED_ACTOR, speedY = CONSTANT_SPEED_ACTOR;
     private float rotation;
     private int color;

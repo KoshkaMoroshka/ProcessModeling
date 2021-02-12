@@ -20,4 +20,9 @@ public class InvisibleActor extends Actor {
         return new float[0][];
     }
 
+    @Override
+    public void getNormalAngle(float x, float y, float speedX, float speedY) {
+
+    }
+
 }

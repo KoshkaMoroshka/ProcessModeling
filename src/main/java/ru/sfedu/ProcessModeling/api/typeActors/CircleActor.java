@@ -11,6 +11,7 @@ import static ru.sfedu.ProcessModeling.Constants.MIN_WIDTH;
 
 public class CircleActor extends Actor {
     public Color color = Color.GREEN;
+
     public CircleActor(Simulation processing, int width, int height) {
         super(processing, width, height);
     }
@@ -19,10 +20,10 @@ public class CircleActor extends Actor {
         super.draw(g);
 
         g.setColor(color);
-        g.fillOval((int)x, (int)y, (int)this.width, (int)this.height);
+        //g.fillOval((int)x, (int)y, (int)this.width, (int)this.height);
         g.setColor(Color.RED);
-        for(int i = 0; i<points[0].length; i++)
-            g.fillOval((int)(points[0][i] + x - 2), (int)(points[1][i] + y - 2), 4,4);
+        //for(int i = 0; i<points[0].length; i++)
+            //g.fillOval((int)(points[0][i] + x - 2), (int)(points[1][i] + y - 2), 4,4);
     }
 
     @Override
@@ -37,19 +38,42 @@ public class CircleActor extends Actor {
         }
     }
 
+    private float pointFX1, pointFY1, pointFX2, pointFY2;
+    private float focalDistance;
+
+    private void findFocusEllipse(float width, float height){
+        float e;
+        float c;
+        float a = width/2, b = height/2;
+        if(width > height){
+            e = (float) Math.sqrt(1 - b/a);
+            c = a * e;
+            float pointX = this.x + a, pointY = this.y + b;
+            pointFX1 = pointX - c;
+            pointFY1 =  pointY;
+            pointFX2 = pointX + c;
+            pointFY2 = pointY;
+            focalDistance = 2*a;
+        } else{
+            e = (float) Math.sqrt(1 - a/b);
+            c = b * e;
+            float pointX = this.x + a, pointY = this.y + b;
+            pointFX1 = pointX;
+            pointFY1 =  pointY - c;
+            pointFX2 = pointX;
+            pointFY2 = pointY + c;
+            focalDistance = 2*b;
+        }
+    }
+
     @Override
     public boolean pointBelongToArea(float x, float y) {
         float a = width/2, b = height/2;
-        float e = (float) Math.sqrt(1 - b/a);
-        float c = a * e;
-        float pointX = this.x + a, pointY = this.y + b;
-        float pointFX1 = pointX - c, pointFY1 = pointY, pointFX2 = pointX + c, pointFY2 = pointY;
+        x -= this.x;
+        y -= this.y;
         double d1 = Math.sqrt((pointFX1 - x)*(pointFX1 - x) + (pointFY1 - y)*(pointFY1 - y));
         double d2 = Math.sqrt((pointFX2 - x)*(pointFX2 - x) + (pointFY2 - y)*(pointFY2 - y));
-        if(d1+d2 < 2*a){
-            return true;
-        }
-        return false;
+        return d1+d2 < focalDistance;
     }
 
     private float distance(float x1, float y1, float x2, float y2){
@@ -58,7 +82,8 @@ public class CircleActor extends Actor {
 
     @Override
     public float[][] getPoints(float width, float height) {
-        float angleRotation = 0, dAngleRotation;
+        findFocusEllipse(width, height);
+        float dAngleRotation;
         float y0 = MIN_HEIGHT / 2;
         float d = MIN_WIDTH/2;
         int k = 0;
@@ -146,5 +171,10 @@ public class CircleActor extends Actor {
             }
             return res;
         }
+    }
+
+    @Override
+    public void getNormalAngle(float x, float y, float speedX, float speedY) {
+
     }
 }

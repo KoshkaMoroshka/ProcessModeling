@@ -4,7 +4,7 @@ import ru.sfedu.ProcessModeling.Simulation;
 
 import static ru.sfedu.ProcessModeling.Constants.*;
 
-public abstract class Collider {
+public abstract class Collider{
     public float x, y;
     public float width = MIN_WIDTH, height = MIN_HEIGHT;
     public float scaleX = CONSTANT_SCALE_OBJECTS, scaleY = CONSTANT_SCALE_OBJECTS;
@@ -29,5 +29,4 @@ public abstract class Collider {
         return false;
     };
     public abstract float[][] getPoints(float width, float height);
-
 }

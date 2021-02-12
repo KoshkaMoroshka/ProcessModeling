@@ -2,7 +2,6 @@ package ru.sfedu.ProcessModeling.api.typeActors;
 
 import ru.sfedu.ProcessModeling.Simulation;
 import ru.sfedu.ProcessModeling.api.Actor;
-import ru.sfedu.ProcessModeling.api.Collider;
 import static ru.sfedu.ProcessModeling.Constants.*;
 
 import java.awt.*;
@@ -20,7 +19,8 @@ public class RectangleActor extends Actor {
         super.draw(g);
 
         g.setColor(Color.BLUE);
-        //g.fillRect((int)x,(int)y,(int)width,(int)height);
+        g.fillRect((int)x,(int)y,(int)width,(int)height);
+            g.fillOval((int)x-4,(int)y-4,4,4);
     }
 
     @Override
@@ -38,7 +38,11 @@ public class RectangleActor extends Actor {
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        return (x >= this.x &&  x <= this.x+width ) && ( y >= this.y && y <= this.y+height);
+        if ((x >= this.x &&  x <= this.x+width ) && ( y >= this.y && y <= this.y+height)){
+            getNormalAngle(x,y,getSpeedX(),getSpeedY());
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -70,5 +74,22 @@ public class RectangleActor extends Actor {
             points[1][i] = points[1][i-1] - height/countPointsHeight - y;
         }
         return points;
+    }
+
+    @Override
+    public void getNormalAngle(float x, float y, float speedX, float speedY) {
+        if((x >= this.x && x <= this.x + width)||(y >= this.y && y <= this.y + height)){
+            x -= speedX;
+            y -= speedY;
+        }
+        float stepXLeft = Math.abs((x-this.x)/speedX);
+        float stepXRight = Math.abs((x-this.x-width)/speedX);
+        float stepYUp = Math.abs((y - this.y)/speedY);
+        float stepYBottom = Math.abs((y - (this.y + height))/speedY);
+        float distanceToAngleEdge1 = (float) Math.sqrt((x - this.x)*(x - this.x) + (y - this.y)*(y  - this.y)),
+              distanceToAngleEdge2 = (float) Math.sqrt((x - this.x - width)*(x - this.x - width) + (y - this.y)*(y - this.y)),
+              distanceToAngleEdge3 = (float) Math.sqrt((x - this.x - width)*(x - this.x - width) + (y - this.y - height)*(y - this.y - height)),
+              distanceToAngleEdge4 = (float) Math.sqrt((x - this.x)*(x - this.x) + (y - this.y - height)*(y - this.y - height));
+
     }
 }

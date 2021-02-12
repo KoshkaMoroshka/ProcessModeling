@@ -15,8 +15,6 @@ public class TriangleActor extends Actor {
         super(processing, width, height);
     }
 
-
-
     @Override
     public void draw(Graphics g) {
         super.draw(g);
@@ -73,5 +71,10 @@ public class TriangleActor extends Actor {
             points[1][i] = points[0][i-1] + height / countPointsEdge - y;
         }
         return points;
+    }
+
+    @Override
+    public void getNormalAngle(float x, float y, float speedX, float speedY) {
+
     }
 }

@@ -23,7 +23,7 @@ public class Simulation{
         simulation.start();
     }
 
-    JPanel invisibleArea = new JPanel();
+    //JPanel invisibleArea = new JPanel();
 
 
     /***
@@ -44,8 +44,8 @@ public class Simulation{
         window.setSize(800, 800);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setContentPane(processField);
-        invisibleArea.setPreferredSize(new Dimension(800, 800));
-        window.add(invisibleArea, BorderLayout.WEST);
+        //invisibleArea.setPreferredSize(new Dimension(800, 800));
+        //window.add(invisibleArea, BorderLayout.WEST);
         window.setVisible(true);
     }
 
@@ -66,9 +66,9 @@ public class Simulation{
      * Single frame refresh function
      */
     private void tick(){
-        rectangleActor2.x = (float) invisibleArea.getMousePosition().getX();
-        rectangleActor2.y = (float) invisibleArea.getMousePosition().getY();
-        rectangleActor2.color = Color.GREEN;
+        //rectangleActor2.x = (float) invisibleArea.getMousePosition().getX();
+        //rectangleActor2.y = (float) invisibleArea.getMousePosition().getY();
+        //rectangleActor2.color = Color.GREEN;
         for (Actor actor : actors) {
             actor.update();
         }
@@ -78,8 +78,8 @@ public class Simulation{
     /***
      * Create all actor objects
      */
-    public CircleActor rectangleActor2;
-    public CircleActor rectangleActor3;
+    public RectangleActor rectangleActor2;
+    public RectangleActor rectangleActor3;
     private void createInitialActorObject(){
         TriangleActor triangleActor = new TriangleActor(this, 40, 40);
         triangleActor.x = 115;
@@ -89,13 +89,16 @@ public class Simulation{
         triangleActor1.y = 200;
         triangleActor1.setSpeedX(4f);
         triangleActor1.setSpeedY(4f);
-        RectangleActor rectangleActor = new RectangleActor(this, 40, 40);
+        RectangleActor rectangleActor = new RectangleActor(this, 150, 150);
         rectangleActor.x = 450;
         rectangleActor.y = 250;
-        rectangleActor.setSpeedX(-1f);
-        RectangleActor rectangleActor1 = new RectangleActor(this, 40, 40);
+        rectangleActor.setSpeedX(3f);
+        rectangleActor.setSpeedX(-2f);
+        RectangleActor rectangleActor1 = new RectangleActor(this, 150, 150);
         rectangleActor1.x = 230;
         rectangleActor1.y = 90;
+        rectangleActor1.setSpeedX(1f);
+        rectangleActor1.setSpeedX(2f);
         CircleActor circleActor = new CircleActor(this, 40, 220);
         circleActor.setSpeedX(2f);
         circleActor.setSpeedY(2f);
@@ -105,8 +108,8 @@ public class Simulation{
         circleActor1.x = 360;
         circleActor1.y = 320;
 
-        rectangleActor2 = circleActor;
-        rectangleActor3 = circleActor1;
+        rectangleActor2 = rectangleActor;
+        rectangleActor3 = rectangleActor1;
         actors.add(circleActor);
         actors.add(rectangleActor);
         actors.add(rectangleActor1);
