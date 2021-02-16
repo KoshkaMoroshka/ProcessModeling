@@ -13,6 +13,7 @@ public class RectangleActor extends Actor {
     public RectangleActor(Simulation processing, int width, int height) {
         super(processing, width, height);
     }
+    float fx, fy;
 
     @Override
     public void draw(Graphics g) {
@@ -20,7 +21,8 @@ public class RectangleActor extends Actor {
 
         g.setColor(Color.BLUE);
         g.fillRect((int)x,(int)y,(int)width,(int)height);
-            g.fillOval((int)x-4,(int)y-4,4,4);
+        g.fillOval((int)fx-4,(int)fy-4,4,4);
+
     }
 
     @Override
@@ -38,11 +40,7 @@ public class RectangleActor extends Actor {
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        if ((x >= this.x &&  x <= this.x+width ) && ( y >= this.y && y <= this.y+height)){
-            getNormalAngle(x,y,getSpeedX(),getSpeedY());
-            return true;
-        }
-        return false;
+        return  ((x >= this.x &&  x <= this.x+width ) && ( y >= this.y && y <= this.y+height));
     }
 
     @Override
@@ -78,18 +76,16 @@ public class RectangleActor extends Actor {
 
     @Override
     public void getNormalAngle(float x, float y, float speedX, float speedY) {
-        if((x >= this.x && x <= this.x + width)||(y >= this.y && y <= this.y + height)){
-            x -= speedX;
-            y -= speedY;
-        }
-        float stepXLeft = Math.abs((x-this.x)/speedX);
-        float stepXRight = Math.abs((x-this.x-width)/speedX);
-        float stepYUp = Math.abs((y - this.y)/speedY);
-        float stepYBottom = Math.abs((y - (this.y + height))/speedY);
-        float distanceToAngleEdge1 = (float) Math.sqrt((x - this.x)*(x - this.x) + (y - this.y)*(y  - this.y)),
-              distanceToAngleEdge2 = (float) Math.sqrt((x - this.x - width)*(x - this.x - width) + (y - this.y)*(y - this.y)),
-              distanceToAngleEdge3 = (float) Math.sqrt((x - this.x - width)*(x - this.x - width) + (y - this.y - height)*(y - this.y - height)),
-              distanceToAngleEdge4 = (float) Math.sqrt((x - this.x)*(x - this.x) + (y - this.y - height)*(y - this.y - height));
-
+        fx = x; fy = y;
+        float x1 = this.x, y1 = this.y, x2 = this.x + width,  y2 = this.y + height;
+        float dx1 = (x - x1), dx2 = (x - x2), dy1 = (y-y1), dy2 = (y-y2);
+        dx1 = dx1*speedX<0 ? dx1 : dx2;
+        dx2 = dx2*speedX<0 ? dx2 : dx1;
+        dy1 = dy1*speedY<0 ? dy1 : dy2;
+        dy2 = dy2*speedY<0 ? dy2 : dy1;
+        float dx0 = dx2, dy0 = dy2;
+        float x0 = x - dx0, y0 = y - dy0;
+        normalAngle =  dx0*speedX>=dy0*speedY ? (x > x0 ? (float)Math.PI/2 : (float)-Math.PI/2 ):(y > y0 ? 0 : (float)Math.PI);
+        System.out.println("normal angle = " + normalAngle);
     }
 }

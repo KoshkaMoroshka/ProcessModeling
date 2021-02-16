@@ -6,8 +6,8 @@ import java.awt.*;
 
 import static ru.sfedu.ProcessModeling.Constants.CONSTANT_SPEED_ACTOR;
 
-public abstract class Actor extends RigidObject{
-    private float speedX = CONSTANT_SPEED_ACTOR, speedY = CONSTANT_SPEED_ACTOR;
+public abstract class Actor extends Collider{
+
     private float rotation;
     private int color;
 
@@ -15,13 +15,7 @@ public abstract class Actor extends RigidObject{
         super(processing, width, height);
     }
 
-    public float getSpeedX() {
-        return speedX;
-    }
 
-    public float getSpeedY() {
-        return speedY;
-    }
 
     public float getRotation() {
         return rotation;
@@ -29,14 +23,6 @@ public abstract class Actor extends RigidObject{
 
     public int getColor() {
         return color;
-    }
-
-    public void setSpeedX(float speedX) {
-        this.speedX = speedX;
-    }
-
-    public void setSpeedY(float speedY) {
-        this.speedY = speedY;
     }
 
     public void setRotation(float rotation) {

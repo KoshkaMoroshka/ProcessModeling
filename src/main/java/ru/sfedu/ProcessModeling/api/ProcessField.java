@@ -22,10 +22,10 @@ public class ProcessField extends JPanel {
             //processing.rectangleActor2.color = Color.RED;
             i += 1;
             //System.out.println("poo");
-            processing.rectangleActor2.setSpeedX(processing.rectangleActor2.getSpeedX()*-1);
-            processing.rectangleActor2.setSpeedY(processing.rectangleActor2.getSpeedY()*-1);
-            processing.rectangleActor3.setSpeedX(processing.rectangleActor3.getSpeedX()*-1);
-            processing.rectangleActor3.setSpeedY(processing.rectangleActor3.getSpeedY()*-1);
+            //processing.rectangleActor2.setSpeedX(processing.rectangleActor2.getSpeedX()*-1);
+            //processing.rectangleActor2.setSpeedY(processing.rectangleActor2.getSpeedY()*-1);
+            //processing.rectangleActor3.setSpeedX(processing.rectangleActor3.getSpeedX()*-1);
+            //processing.rectangleActor3.setSpeedY(processing.rectangleActor3.getSpeedY()*-1);
            // return;
         }
         for(Actor actor : processing.actors)
