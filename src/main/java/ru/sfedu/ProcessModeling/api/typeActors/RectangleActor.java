@@ -9,34 +9,23 @@ import java.awt.*;
 
 public class RectangleActor extends Actor {
 
+    float masCornerX[], masCornerY[];
+    float[] normalAngles;
 
     public RectangleActor(Simulation processing, int width, int height) {
         super(processing, width, height);
     }
-    float fx, fy;
 
     @Override
     public void draw(Graphics g) {
         super.draw(g);
 
         g.setColor(Color.BLUE);
-        g.fillRect((int)x,(int)y,(int)width,(int)height);
-        g.fillOval((int)fx-4,(int)fy-4,4,4);
-
+        int[]   bufX = {(int)(masCornerX[0] + x), (int)(masCornerX[1] + x),(int)(masCornerX[2] + x),(int)(masCornerX[3] + x)},
+                bufY = {(int)(masCornerY[0] + y), (int)(masCornerY[1] + y),(int)(masCornerY[2] + y),(int)(masCornerY[3] + y)};
+        g.fillPolygon(bufX, bufY, 4);
     }
 
-    @Override
-    public void update(){
-        x+=getSpeedX();
-        y+=getSpeedY();
-        if(x + width>= processing.width || x <= 0){
-            setSpeedX(getSpeedX()*-1);
-        }
-        if(y + height>= processing.height || y <= 0){
-            setSpeedY(getSpeedY()*-1);
-        }
-
-    }
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
@@ -48,44 +37,78 @@ public class RectangleActor extends Actor {
         int countPointsWidth = (int)(width/MIN_WIDTH), countPointsHeight = (int)(height/MIN_HEIGHT);
         float[][] points = new float[2][countPointsWidth*2 + countPointsHeight*2 + 4];
         int i = 1;
-        points[0][0] = x;
-        points[1][0] = y;
+
+        masCornerX = new float[4];
+        masCornerY = new float[4];
+        normalAngles = new float[4];
+
+        points[0][0] = 0;
+        points[1][0] = 0;
 
         for(int k=1; k<countPointsWidth+1; k++, i++)
         {
-            points[0][i] = points[0][i-1] + width/countPointsWidth - x;
-            points[1][i] = points[1][i-1] - y;
+            points[0][i] = points[0][i-1] + width/countPointsWidth;
+            points[1][i] = points[1][i-1];
         }
+        masCornerX[1] = points[0][i-1];
+        masCornerY[1] = points[1][i-1];
+        for(int k=1; k<countPointsHeight+1; k++, i++)
+        {
+            points[0][i] = points[0][i-1];
+            points[1][i] = points[1][i-1] + height/countPointsHeight;
+        }
+        masCornerX[2] = points[0][i-1];
+        masCornerY[2] = points[1][i-1];
         for(int k=1; k<countPointsWidth+1; k++, i++)
         {
-            points[0][i] = points[0][i-1] - x;
-            points[1][i] = points[1][i-1] + height/countPointsHeight - y;
+            points[0][i] = points[0][i-1] - width/countPointsWidth;
+            points[1][i] = points[1][i-1];
         }
-        for(int k=1; k<countPointsWidth+1; k++, i++)
+        masCornerX[3] = points[0][i-1];
+        masCornerY[3] = points[1][i-1];
+        for(int k=1; k<countPointsHeight+1; k++, i++)
         {
-            points[0][i] = points[0][i-1] - width/countPointsWidth - x;
-            points[1][i] = points[1][i-1] - y;
+            points[0][i] = points[0][i-1];
+            points[1][i] = points[1][i-1] - height/countPointsHeight;
         }
-        for(int k=1; k<countPointsWidth+1; k++, i++)
-        {
-            points[0][i] = points[0][i-1] - x;
-            points[1][i] = points[1][i-1] - height/countPointsHeight - y;
-        }
+        masCornerX[0] = points[0][i-1];
+        masCornerY[0] = points[1][i-1];
+        normalAngles[0] = (float) Math.PI/2;
+        normalAngles[1] = 0;
+        normalAngles[2] = (float) -Math.PI/2;
+        normalAngles[3] = (float) Math.PI;
         return points;
     }
 
     @Override
-    public void getNormalAngle(float x, float y, float speedX, float speedY) {
-        fx = x; fy = y;
-        float x1 = this.x, y1 = this.y, x2 = this.x + width,  y2 = this.y + height;
-        float dx1 = (x - x1), dx2 = (x - x2), dy1 = (y-y1), dy2 = (y-y2);
-        dx1 = dx1*speedX<0 ? dx1 : dx2;
-        dx2 = dx2*speedX<0 ? dx2 : dx1;
-        dy1 = dy1*speedY<0 ? dy1 : dy2;
-        dy2 = dy2*speedY<0 ? dy2 : dy1;
-        float dx0 = dx2, dy0 = dy2;
-        float x0 = x - dx0, y0 = y - dy0;
-        normalAngle =  dx0*speedX>=dy0*speedY ? (x > x0 ? (float)Math.PI/2 : (float)-Math.PI/2 ):(y > y0 ? 0 : (float)Math.PI);
-        System.out.println("normal angle = " + normalAngle);
+    public float getNormalAngle(float x, float y, float speedX, float speedY) {
+        if(x < this.x + width && y < this.y + height){
+            if(lineCrossing(masCornerX[0] + this.x, masCornerY[0] + this.y,
+                    masCornerX[1] + this.x, masCornerY[1] + this.y,
+                    x, y,
+                    x - speedX + this.speedX, y - speedY + this.speedY)){
+                return normalAngles[0];
+            }
+            if(lineCrossing(masCornerX[2] + this.x, masCornerY[2] + this.y,
+                    masCornerX[3] + this.x, masCornerY[3] + this.y,
+                    x, y,
+                    x - speedX + this.speedX, y - speedY + this.speedY)){
+                return normalAngles[2];
+            }
+        } else {
+            if(lineCrossing(masCornerX[1] + this.x, masCornerY[1] + this.y,
+                    masCornerX[2] + this.x, masCornerY[2] + this.y,
+                    x, y,
+                    x - speedX + this.speedX, y - speedY + this.speedY)){
+                return normalAngles[1];
+            }
+            if(lineCrossing(masCornerX[3] + this.x, masCornerY[3] + this.y,
+                    masCornerX[0] + this.x, masCornerY[0] + this.y,
+                    x, y,
+                    x - speedX + this.speedX, y - speedY + this.speedY)){
+                return normalAngles[3];
+            }
+        }
+        return defaultNormalAngle;
     }
 }

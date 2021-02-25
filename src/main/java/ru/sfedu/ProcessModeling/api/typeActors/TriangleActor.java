@@ -2,14 +2,15 @@ package ru.sfedu.ProcessModeling.api.typeActors;
 
 import ru.sfedu.ProcessModeling.Simulation;
 import ru.sfedu.ProcessModeling.api.Actor;
-import ru.sfedu.ProcessModeling.api.Collider;
 
 import java.awt.*;
 
-import static ru.sfedu.ProcessModeling.Constants.MIN_HEIGHT;
 import static ru.sfedu.ProcessModeling.Constants.MIN_WIDTH;
 
 public class TriangleActor extends Actor {
+
+    float[] masCornerX, masCornerY;
+    float[] normalAngles;
 
     public TriangleActor(Simulation processing, int width, int height) {
         super(processing, width, height);
@@ -20,24 +21,9 @@ public class TriangleActor extends Actor {
         super.draw(g);
 
         g.setColor(Color.RED);
-        /*g.drawLine((int)x-25, (int)y, (int)x+25,(int) y);
-        g.drawLine((int)x-25, (int)y,(int) x, (int)y-43);
-        g.drawLine((int)x+25, (int)y, (int)x, (int)y-43);*/
-        int xm[] = {(int)x, (int)(x+width), (int) (x+width/2)};
-        int ym[] = {(int)(y+height), (int)(y+height), (int) y};
-        //g.fillPolygon(xm,ym,3);
-    }
-
-    @Override
-    public void update(){
-        x+=getSpeedX();
-        y+=getSpeedY();
-        if(x + width> processing.width || x < 0){
-            setSpeedX(getSpeedX()*-1);
-        }
-        if(y + height> processing.height || y < 0){
-            setSpeedY(getSpeedY()*-1);
-        }
+        int xm[] = {(int)(masCornerX[0] + x), (int)(masCornerX[1] + x), (int)(masCornerX[2] + x)};
+        int ym[] = {(int)(masCornerY[0] + y), (int)(masCornerY[1] + y), (int)(masCornerY[2] + y)};
+        g.fillPolygon(xm,ym,3);
     }
 
     private boolean sameSide(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3){
@@ -55,26 +41,38 @@ public class TriangleActor extends Actor {
     public float[][] getPoints(float width, float height) {
         int countPointsEdge = (int)((Math.sqrt((width/2)*(width/2) + height*height))/MIN_WIDTH), countPointsGrounds = (int)(height/MIN_WIDTH);
         float[][] points = new float[2][countPointsEdge*2 + countPointsGrounds + 3];
+        masCornerX = new float[3];
+        masCornerY = new float[3];
+        normalAngles = new float[3];
         int i = 1;
-        points[0][0] = x;
-        points[1][0] = y + height;
+        points[0][0] = 0;
+        points[1][0] = height;
         for (int k =1; k < countPointsGrounds+1; k++, i++){
-            points[0][i] = points[0][i-1] + width/countPointsGrounds - x;
-            points[1][i] = points[1][i-1] - y;
+            points[0][i] = points[0][i-1] + width/countPointsGrounds;
+            points[1][i] = points[1][i-1];
         }
+        masCornerX[1] = points[0][i-1];
+        masCornerY[1] = points[1][i-1];
         for (int k = 1; k < countPointsEdge+1; k++, i++){
-            points[0][i] = points[0][i-1] - (width/2) / countPointsEdge - x;
-            points[1][i] = points[0][i-1] - height / countPointsEdge - y;
+            points[0][i] = points[0][i-1] - (width/2) / countPointsEdge;
+            points[1][i] = points[0][i-1] - height / countPointsEdge;
         }
+        masCornerX[2] = points[0][i-1];
+        masCornerY[2] = points[1][i-1];
         for (int k = 1; k< countPointsEdge+1; k++, i++){
-            points[0][i] = points[0][i-1] - (width/2) / countPointsEdge - x;
-            points[1][i] = points[0][i-1] + height / countPointsEdge - y;
+            points[0][i] = points[0][i-1] - (width/2) / countPointsEdge;
+            points[1][i] = points[1][i-1] + height / countPointsEdge;
         }
+        masCornerX[0] = points[0][i-1];
+        masCornerY[0] = points[1][i-1];
+        normalAngles[0] = (float)Math.atan(((masCornerX[1] - masCornerX[0]))/(masCornerY[1] - masCornerY[0]));
+        normalAngles[1] = (float)Math.atan(((masCornerX[2] - masCornerX[1]))/(masCornerY[2] - masCornerY[1]));
+        normalAngles[2] = (float)Math.atan(((masCornerX[0] - masCornerX[2]))/(masCornerY[0] - masCornerY[2]));
         return points;
     }
 
     @Override
-    public void getNormalAngle(float x, float y, float speedX, float speedY) {
-
+    public float getNormalAngle(float x, float y, float speedX, float speedY) {
+        return defaultNormalAngle;
     }
 }

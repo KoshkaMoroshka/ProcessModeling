@@ -18,24 +18,9 @@ public class CircleActor extends Actor {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-
         g.setColor(color);
-        //g.fillOval((int)x, (int)y, (int)this.width, (int)this.height);
+        g.fillOval((int)x, (int)y, (int)this.width, (int)this.height);
         g.setColor(Color.RED);
-        //for(int i = 0; i<points[0].length; i++)
-            //g.fillOval((int)(points[0][i] + x - 2), (int)(points[1][i] + y - 2), 4,4);
-    }
-
-    @Override
-    public void update(){
-        x+=getSpeedX();
-        y+=getSpeedY();
-        if(x+this.width >= processing.width || x <= 0){
-            setSpeedX(getSpeedX()*-1);
-        }
-        if(y+this.height >= processing.height || y <= 0){
-            setSpeedY(getSpeedY()*-1);
-        }
     }
 
     private float pointFX1, pointFY1, pointFX2, pointFY2;
@@ -68,7 +53,6 @@ public class CircleActor extends Actor {
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        float a = width/2, b = height/2;
         x -= this.x;
         y -= this.y;
         double d1 = Math.sqrt((pointFX1 - x)*(pointFX1 - x) + (pointFY1 - y)*(pointFY1 - y));
@@ -96,7 +80,7 @@ public class CircleActor extends Actor {
                 n=8;
             dAngleRotation = (float) (2 * Math.PI / n);
             float[][] points = new float[2][n];
-            float cc = 1.0f, ss = 0, dc = (float) Math.cos(dAngleRotation), ds = (float) Math.sin(dAngleRotation);
+            float cc, ss, dc = (float) Math.cos(dAngleRotation), ds = (float) Math.sin(dAngleRotation);
             for(int i = 0; i<4; i++){
                 cc = (float) Math.cos(Math.PI * i/2);
                 ss = (float) Math.sin(Math.PI * i/2);
@@ -174,7 +158,7 @@ public class CircleActor extends Actor {
     }
 
     @Override
-    public void getNormalAngle(float x, float y, float speedX, float speedY) {
-
+    public float getNormalAngle(float x, float y, float speedX, float speedY) {
+        return defaultNormalAngle;
     }
 }
