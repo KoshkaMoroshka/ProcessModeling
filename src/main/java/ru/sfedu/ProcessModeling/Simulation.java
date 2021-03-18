@@ -19,10 +19,7 @@ public class Simulation{
     private ProcessField processField;
     public ArrayList<Actor> actors = new ArrayList<>();
     public float width, height;
-    public static void main(String arg[]) {
-        Simulation simulation = new Simulation();
-        simulation.start();
-    }
+
 
     //JPanel invisibleArea = new JPanel();
 
@@ -72,6 +69,7 @@ public class Simulation{
         //rectangleActor2.color = Color.GREEN;
         for (Actor actor : actors) {
             actor.update();
+
         }
         updateCollisions();
         processField.repaint();
@@ -83,14 +81,10 @@ public class Simulation{
             collider1 = actors.get(i);
             for (int k = i+1; k < actors.size(); k++){
                 collider2 = actors.get(k);
-                if(collider1.collision(collider2)){
-                    collider1.x = collider1.prevPointX;
-                    collider1.y = collider1.prevPointY;
-                    collider2.x = collider2.prevPointX;
-                    collider2.y = collider2.prevPointY;
-                    collider1.update();
-                    collider2.update();
-                }
+                if(collider1.collision(collider2) || collider2.collision(collider1)){
+                    collider1.color = Color.RED;
+                    collider1.onCollision(collider2);
+                }else collider1.color = Color.BLUE;
             }
         }
     }
@@ -124,18 +118,20 @@ public class Simulation{
         circleActor.setSpeedY(0f);
         circleActor.x = 100;
         circleActor.y = 250;
-        CircleActor circleActor1 = new CircleActor(this, 40, 220);
+        CircleActor circleActor1 = new CircleActor(this, 120, 220);
+        Color color = new Color(150,75,0);
+        circleActor1.color = color;
         circleActor1.x = 360;
         circleActor1.y = 320;
-
+        circleActor1.rotate(1f);
         rectangleActor2 = rectangleActor;
         rectangleActor3 = rectangleActor1;
         //actors.add(circleActor);
         actors.add(rectangleActor);
-        actors.add(rectangleActor1);
+        //actors.add(rectangleActor1);
         //actors.add(triangleActor);
         //actors.add(triangleActor1);
-        //actors.add(circleActor1);
+        actors.add(circleActor1);
     }
 }
 

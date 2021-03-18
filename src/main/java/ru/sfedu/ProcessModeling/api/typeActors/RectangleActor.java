@@ -20,12 +20,11 @@ public class RectangleActor extends Actor {
     public void draw(Graphics g) {
         super.draw(g);
 
-        g.setColor(Color.BLUE);
+        g.setColor(this.color);
         int[]   bufX = {(int)(masCornerX[0] + x), (int)(masCornerX[1] + x),(int)(masCornerX[2] + x),(int)(masCornerX[3] + x)},
                 bufY = {(int)(masCornerY[0] + y), (int)(masCornerY[1] + y),(int)(masCornerY[2] + y),(int)(masCornerY[3] + y)};
         g.fillPolygon(bufX, bufY, 4);
     }
-
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
@@ -41,6 +40,9 @@ public class RectangleActor extends Actor {
         masCornerX = new float[4];
         masCornerY = new float[4];
         normalAngles = new float[4];
+
+        this.centerX = width/2;
+        this.centerY = height/2;
 
         points[0][0] = 0;
         points[1][0] = 0;

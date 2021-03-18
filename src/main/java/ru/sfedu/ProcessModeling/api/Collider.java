@@ -5,13 +5,12 @@ import ru.sfedu.ProcessModeling.Simulation;
 
 public abstract class Collider extends RigidObject{
 
-    public float points[][];
-
     Collider(Simulation processing, int width, int height){
         this.processing = processing;
         this.width = width;
         this.height = height;
         points = getPoints(width, height);
+        resolveRect();
     }
 
     public abstract boolean pointBelongToArea(float x, float y);
@@ -19,10 +18,8 @@ public abstract class Collider extends RigidObject{
         if(this == collider)
             return false;
         for (int i=0; i<points[0].length; i++)
-            if(collider.pointBelongToArea(points[0][i] + x,points[1][i] + y)){
-                onCollision(collider, collider.getNormalAngle(points[0][i]+x, points[1][i]+y, speedX, speedY));
+            if(collider.pointBelongToArea(points[0][i] + x,points[1][i] + y))
                 return true;
-            }
         return false;
     };
 

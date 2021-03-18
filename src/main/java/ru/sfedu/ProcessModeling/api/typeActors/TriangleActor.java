@@ -45,6 +45,10 @@ public class TriangleActor extends Actor {
         masCornerY = new float[3];
         normalAngles = new float[3];
         int i = 1;
+
+        centerX = (width + 0 + width/2)/3;
+        centerY = (height + height + 0)/3;
+
         points[0][0] = 0;
         points[1][0] = height;
         for (int k =1; k < countPointsGrounds+1; k++, i++){

@@ -18,9 +18,14 @@ public class CircleActor extends Actor {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-        g.setColor(color);
-        g.fillOval((int)x, (int)y, (int)this.width, (int)this.height);
-        g.setColor(Color.RED);
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.translate(centerX+x, centerY+y);
+        graphics2D.rotate(rotation);
+        graphics2D.setColor(color);
+        graphics2D.fillOval((int)-width/2, (int)-height/2, (int)width, (int)height);
+        graphics2D.setColor(Color.GREEN);
+        graphics2D.rotate(-rotation);
+        graphics2D.translate(-(centerX+x),-(centerY+y));
     }
 
     private float pointFX1, pointFY1, pointFX2, pointFY2;
@@ -53,8 +58,13 @@ public class CircleActor extends Actor {
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        x -= this.x;
-        y -= this.y;
+        x -= this.x + centerX;
+        y -= this.y + centerY;
+        float r = (float) Math.sqrt(x*x + y*y);
+        float cosRotation = (float) Math.cos(-this.rotation);
+        float sinRotation = (float) Math.sin(-this.rotation);
+        x = x - (centerX + x * cosRotation - y * sinRotation);
+        y = y - (centerY + y * cosRotation + x * sinRotation);
         double d1 = Math.sqrt((pointFX1 - x)*(pointFX1 - x) + (pointFY1 - y)*(pointFY1 - y));
         double d2 = Math.sqrt((pointFX2 - x)*(pointFX2 - x) + (pointFY2 - y)*(pointFY2 - y));
         return d1+d2 < focalDistance;
@@ -69,9 +79,13 @@ public class CircleActor extends Actor {
         findFocusEllipse(width, height);
         float dAngleRotation;
         float y0 = MIN_HEIGHT / 2;
-        float d = MIN_WIDTH/2;
+        float d = MIN_WIDTH / 2;
         int k = 0;
         float bufX, bufY, c, s;
+
+        centerX = width/2;
+        centerY = height/2;
+
         if (width > height) {
             float x0 = (float) Math.sqrt(width * width * (1 - MIN_WIDTH * MIN_WIDTH / 4 / height / height));
             float angleTetta = (float) (2 * Math.atan(y0 / x0));
