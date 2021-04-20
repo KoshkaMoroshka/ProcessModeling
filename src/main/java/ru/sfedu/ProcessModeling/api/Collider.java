@@ -1,7 +1,5 @@
 package ru.sfedu.ProcessModeling.api;
 
-import ru.sfedu.ProcessModeling.Simulation;
-
 
 public abstract class Collider extends RigidObject{
 

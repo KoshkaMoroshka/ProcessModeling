@@ -1,6 +1,6 @@
 package ru.sfedu.ProcessModeling.api.typeActors;
 
-import ru.sfedu.ProcessModeling.Simulation;
+import ru.sfedu.ProcessModeling.api.Simulation;
 import ru.sfedu.ProcessModeling.api.Actor;
 
 import java.awt.*;
@@ -19,11 +19,15 @@ public class TriangleActor extends Actor {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-
-        g.setColor(Color.RED);
-        int xm[] = {(int)(masCornerX[0] + x), (int)(masCornerX[1] + x), (int)(masCornerX[2] + x)};
-        int ym[] = {(int)(masCornerY[0] + y), (int)(masCornerY[1] + y), (int)(masCornerY[2] + y)};
-        g.fillPolygon(xm,ym,3);
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.translate(centerX + x, centerY + y);
+        graphics2D.rotate(rotation);
+        graphics2D.setColor(Color.RED);
+        int xm[] = {(int)(masCornerX[0] - centerX), (int)(masCornerX[1] - centerX), (int)(masCornerX[2] - centerX)};
+        int ym[] = {(int)(masCornerY[0] - centerY), (int)(masCornerY[1] - centerY), (int)(masCornerY[2] - centerY)};
+        graphics2D.fillPolygon(xm,ym,3);
+        graphics2D.rotate(-rotation);
+        graphics2D.translate(-(centerX+x), -(centerY + y));
     }
 
     private boolean sameSide(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3){

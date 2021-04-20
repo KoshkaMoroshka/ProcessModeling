@@ -1,6 +1,5 @@
 package ru.sfedu.ProcessModeling.api;
 
-import ru.sfedu.ProcessModeling.Simulation;
 import javax.swing.*;
 import java.awt.*;
 

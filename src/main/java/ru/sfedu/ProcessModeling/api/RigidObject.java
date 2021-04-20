@@ -1,7 +1,5 @@
 package ru.sfedu.ProcessModeling.api;
 
-import ru.sfedu.ProcessModeling.Simulation;
-
 import java.awt.*;
 
 import static ru.sfedu.ProcessModeling.Constants.*;
@@ -24,8 +22,6 @@ public abstract class RigidObject{
     public float centerY;
     protected float rotation = 0;
     public float points[][];
-
-
 
     public abstract float getNormalAngle(float x, float y, float speedX, float speedY);
 
@@ -88,6 +84,7 @@ public abstract class RigidObject{
         y5 = k2 * (x5-x3) + y3;
         return (x5 <= x2 && x5 >= x1 && y5 <= y2 && y5 >= y1);
     }
+
     public boolean onCollision(Collider collider){
         if(!this.isRigid || !collider.isRigid)
             return false;
@@ -110,6 +107,7 @@ public abstract class RigidObject{
         collider.speedX = speedX2; collider.speedY = speedY2;
         return false;
     }
+
     public float rotate(float rotation){
         this.rotation+=rotation;
         float cosRotation = (float) Math.cos(this.rotation);

@@ -1,10 +1,12 @@
 package ru.sfedu.ProcessModeling.api.typeActors;
 
-import ru.sfedu.ProcessModeling.Simulation;
+import ru.sfedu.ProcessModeling.api.Simulation;
 import ru.sfedu.ProcessModeling.api.Actor;
-import static ru.sfedu.ProcessModeling.Constants.*;
 
 import java.awt.*;
+
+import static ru.sfedu.ProcessModeling.Constants.MIN_HEIGHT;
+import static ru.sfedu.ProcessModeling.Constants.MIN_WIDTH;
 
 
 public class RectangleActor extends Actor {
@@ -17,13 +19,18 @@ public class RectangleActor extends Actor {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g){
         super.draw(g);
-
-        g.setColor(this.color);
-        int[]   bufX = {(int)(masCornerX[0] + x), (int)(masCornerX[1] + x),(int)(masCornerX[2] + x),(int)(masCornerX[3] + x)},
-                bufY = {(int)(masCornerY[0] + y), (int)(masCornerY[1] + y),(int)(masCornerY[2] + y),(int)(masCornerY[3] + y)};
-        g.fillPolygon(bufX, bufY, 4);
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.translate(centerX + x, centerY + y);
+        graphics2D.rotate(rotation);
+        graphics2D.setColor(this.color);
+        int[]   bufX = {(int)(masCornerX[0] - centerX), (int)(masCornerX[1] - centerX),(int)(masCornerX[2] - centerX),(int)(masCornerX[3] - centerX)},
+                bufY = {(int)(masCornerY[0] - centerY), (int)(masCornerY[1] - centerY),(int)(masCornerY[2] - centerY),(int)(masCornerY[3] - centerY)};
+        graphics2D.fillPolygon(bufX, bufY, 4);
+        graphics2D.setColor(Color.GREEN);
+        graphics2D.rotate(-rotation);
+        graphics2D.translate(-(centerX+x), -(centerY + y));
     }
 
     @Override
@@ -40,6 +47,8 @@ public class RectangleActor extends Actor {
         masCornerX = new float[4];
         masCornerY = new float[4];
         normalAngles = new float[4];
+        centerX = width/2;
+        centerY = height/2;
 
         this.centerX = width/2;
         this.centerY = height/2;

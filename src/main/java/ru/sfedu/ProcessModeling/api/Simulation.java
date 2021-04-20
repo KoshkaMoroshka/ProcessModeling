@@ -1,17 +1,18 @@
-package ru.sfedu.ProcessModeling;
+package ru.sfedu.ProcessModeling.api;
 
 
-import ru.sfedu.ProcessModeling.api.*;
 import ru.sfedu.ProcessModeling.api.typeActors.CircleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.TriangleActor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Simulation{
 
@@ -27,18 +28,32 @@ public class Simulation{
     /***
      * This function create and start simulation
      */
-    public void start(){
+    public void start() throws IOException, AWTException {
         createWindow();
         createInitialActorObject();
+        for (Actor actor: actors)
+            actor.start();
         startTimer();
+    }
+
+    public void finish(){
+        for (Actor actor: actors)
+            actor.stop();
     }
 
     /***
      * Сreates a simulation rendering area
      */
-    public void createWindow(){
+    public void createWindow() throws IOException, AWTException {
         processField = new ProcessField(this);
         window = new JFrame("ProcessField");
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                finish();
+                super.windowClosing(e);
+            }
+        });
         window.setSize(800, 800);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setContentPane(processField);
@@ -51,13 +66,14 @@ public class Simulation{
      * Timer, after which a new frame will be drawn
      */
     private void startTimer(){
-        Timer timer = new Timer(5, new AbstractAction() {
+        TimerTask task = new TimerTask() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void run() {
                 tick();
             }
-        });
-        timer.start();
+        };
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(task, 0, 240);
     }
 
     /***
@@ -69,7 +85,7 @@ public class Simulation{
         //rectangleActor2.color = Color.GREEN;
         for (Actor actor : actors) {
             actor.update();
-
+            actor.rotate(1f);
         }
         updateCollisions();
         processField.repaint();
@@ -94,10 +110,11 @@ public class Simulation{
      */
     public RectangleActor rectangleActor2;
     public RectangleActor rectangleActor3;
-    private void createInitialActorObject(){
+    private void createInitialActorObject() throws IOException, AWTException {
         TriangleActor triangleActor = new TriangleActor(this, 40, 40);
         triangleActor.x = 115;
         triangleActor.y = 40;
+        triangleActor.rotate(1f);
         TriangleActor triangleActor1 = new TriangleActor(this, 40, 40);
         triangleActor1.x = 250;
         triangleActor1.y = 200;
@@ -111,8 +128,9 @@ public class Simulation{
         RectangleActor rectangleActor1 = new RectangleActor(this, 150, 150);
         rectangleActor1.x = 250;
         rectangleActor1.y = 350;
-        rectangleActor1.setSpeedX(0f);
-        rectangleActor1.setSpeedY(0f);
+        rectangleActor1.setSpeedX(1f);
+        rectangleActor1.setSpeedY(1f);
+        rectangleActor1.rotate(1f);
         CircleActor circleActor = new CircleActor(this, 40, 220);
         circleActor.setSpeedX(4f);
         circleActor.setSpeedY(0f);
@@ -123,15 +141,19 @@ public class Simulation{
         circleActor1.color = color;
         circleActor1.x = 360;
         circleActor1.y = 320;
-        circleActor1.rotate(1f);
+        VideoRecorder videoRecorder = new VideoRecorder(this, 0,0);
+        videoRecorder.isRigid = false;
+
+        //circleActor1.rotate(1f);
         rectangleActor2 = rectangleActor;
         rectangleActor3 = rectangleActor1;
         //actors.add(circleActor);
         actors.add(rectangleActor);
         //actors.add(rectangleActor1);
-        //actors.add(triangleActor);
+        actors.add(triangleActor);
         //actors.add(triangleActor1);
         actors.add(circleActor1);
+        actors.add(videoRecorder);
     }
 }
 

@@ -1,8 +1,7 @@
 package ru.sfedu.ProcessModeling.api.typeActors;
 
-import ru.sfedu.ProcessModeling.Simulation;
+import ru.sfedu.ProcessModeling.api.Simulation;
 import ru.sfedu.ProcessModeling.api.Actor;
-import ru.sfedu.ProcessModeling.api.Collider;
 
 import java.awt.*;
 
