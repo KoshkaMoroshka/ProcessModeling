@@ -4,6 +4,7 @@ package ru.sfedu.ProcessModeling.api;
 import ru.sfedu.ProcessModeling.api.typeActors.CircleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.TriangleActor;
+import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class Simulation{
     public JFrame window;
     private ProcessField processField;
     public ArrayList<Actor> actors = new ArrayList<>();
+    public ArrayList<Motion> motions = new ArrayList<>();
     public float width, height;
 
 
@@ -73,7 +75,7 @@ public class Simulation{
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(task, 0, 240);
+        timer.scheduleAtFixedRate(task, 0, 20);
     }
 
     /***
@@ -83,9 +85,11 @@ public class Simulation{
         //rectangleActor2.x = (float) invisibleArea.getMousePosition().getX();
         //rectangleActor2.y = (float) invisibleArea.getMousePosition().getY();
         //rectangleActor2.color = Color.GREEN;
+        for (Motion motion: motions)
+            motion.move();
         for (Actor actor : actors) {
             actor.update();
-            actor.rotate(1f);
+            //actor.rotate(1f);
         }
         updateCollisions();
         processField.repaint();
@@ -128,8 +132,6 @@ public class Simulation{
         RectangleActor rectangleActor1 = new RectangleActor(this, 150, 150);
         rectangleActor1.x = 250;
         rectangleActor1.y = 350;
-        rectangleActor1.setSpeedX(1f);
-        rectangleActor1.setSpeedY(1f);
         rectangleActor1.rotate(1f);
         CircleActor circleActor = new CircleActor(this, 40, 220);
         circleActor.setSpeedX(4f);
@@ -141,19 +143,24 @@ public class Simulation{
         circleActor1.color = color;
         circleActor1.x = 360;
         circleActor1.y = 320;
-        VideoRecorder videoRecorder = new VideoRecorder(this, 0,0);
-        videoRecorder.isRigid = false;
+        //VideoRecorder videoRecorder = new VideoRecorder(this, 0,0);
+        //videoRecorder.isRigid = false;
+
+        LinearMotion linearMotion = new LinearMotion(rectangleActor1, 100, 100);
+        motions.add(linearMotion);
 
         //circleActor1.rotate(1f);
         rectangleActor2 = rectangleActor;
         rectangleActor3 = rectangleActor1;
         //actors.add(circleActor);
-        actors.add(rectangleActor);
-        //actors.add(rectangleActor1);
-        actors.add(triangleActor);
+        //actors.add(rectangleActor);
+        actors.add(rectangleActor1);
+        //actors.add(triangleActor);
         //actors.add(triangleActor1);
-        actors.add(circleActor1);
-        actors.add(videoRecorder);
+        //actors.add(circleActor1);
+        //actors.add(videoRecorder);
+
+
     }
 }
 

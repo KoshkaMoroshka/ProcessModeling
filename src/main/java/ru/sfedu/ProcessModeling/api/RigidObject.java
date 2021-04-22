@@ -30,10 +30,8 @@ public abstract class RigidObject{
         prevPointY = y;
         x+=speedX;
         y+=speedY;
-        if(maxX + x >= processing.width || minX + x <= 0)
-            speedX*=-1;
-        if(maxY + y>= processing.height || minY + y <= 0)
-            speedY*=-1;
+        speedX = 0;
+        speedY = 0;
     }
 
     float maxX, maxY, minX, minY;
