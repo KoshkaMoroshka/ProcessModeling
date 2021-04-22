@@ -1,7 +1,7 @@
 package ru.sfedu.ProcessModeling.api;
 
 
-public abstract class Collider extends RigidObject{
+public abstract class Collider extends RigidObject {
 
     Collider(Simulation processing, int width, int height){
         this.processing = processing;
@@ -16,7 +16,7 @@ public abstract class Collider extends RigidObject{
         if(this == collider)
             return false;
         for (int i=0; i<points[0].length; i++)
-            if(collider.pointBelongToArea(points[0][i] + x,points[1][i] + y))
+            if(collider.pointBelongToArea(points[0][i] + x + centerX,points[1][i] + y + centerY))
                 return true;
         return false;
     };

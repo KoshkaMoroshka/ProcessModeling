@@ -1,6 +1,7 @@
 package ru.sfedu.ProcessModeling.api;
 
 
+import ru.sfedu.ProcessModeling.api.typeActors.BoxCollider;
 import ru.sfedu.ProcessModeling.api.typeActors.CircleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
 import ru.sfedu.ProcessModeling.api.typeActors.TriangleActor;
@@ -82,16 +83,14 @@ public class Simulation{
      * Single frame refresh function
      */
     private void tick(){
-        //rectangleActor2.x = (float) invisibleArea.getMousePosition().getX();
-        //rectangleActor2.y = (float) invisibleArea.getMousePosition().getY();
-        //rectangleActor2.color = Color.GREEN;
         for (Motion motion: motions)
             motion.move();
+        updateCollisions();
         for (Actor actor : actors) {
             actor.update();
-            //actor.rotate(1f);
+            actor.speedX = 0;
+            actor.speedY = 0;
         }
-        updateCollisions();
         processField.repaint();
     }
 
@@ -104,6 +103,8 @@ public class Simulation{
                 if(collider1.collision(collider2) || collider2.collision(collider1)){
                     collider1.color = Color.RED;
                     collider1.onCollision(collider2);
+                    collider1.update();
+                    collider2.update();
                 }else collider1.color = Color.BLUE;
             }
         }
@@ -115,21 +116,22 @@ public class Simulation{
     public RectangleActor rectangleActor2;
     public RectangleActor rectangleActor3;
     private void createInitialActorObject() throws IOException, AWTException {
-        TriangleActor triangleActor = new TriangleActor(this, 40, 40);
-        triangleActor.x = 115;
-        triangleActor.y = 40;
-        triangleActor.rotate(1f);
+        TriangleActor triangleActor = new TriangleActor(this, 80, 80);
+        triangleActor.x = 100;
+        triangleActor.y = 80;
+        //triangleActor.rotate(1f);
         TriangleActor triangleActor1 = new TriangleActor(this, 40, 40);
         triangleActor1.x = 250;
         triangleActor1.y = 200;
         triangleActor1.setSpeedX(2f);
         triangleActor1.setSpeedY(2f);
-        RectangleActor rectangleActor = new RectangleActor(this, 120, 130);
+        RectangleActor rectangleActor = new RectangleActor(this, 130, 130);
         rectangleActor.x = 350;
         rectangleActor.y = 90;
         rectangleActor.setSpeedX(2f);
         rectangleActor.setSpeedY(2f);
-        RectangleActor rectangleActor1 = new RectangleActor(this, 150, 150);
+        //rectangleActor.rotate(1f);
+        RectangleActor rectangleActor1 = new RectangleActor(this, 80, 80);
         rectangleActor1.x = 250;
         rectangleActor1.y = 350;
         rectangleActor1.rotate(1f);
@@ -137,30 +139,41 @@ public class Simulation{
         circleActor.setSpeedX(4f);
         circleActor.setSpeedY(0f);
         circleActor.x = 100;
-        circleActor.y = 250;
+        circleActor.y = 50;
         CircleActor circleActor1 = new CircleActor(this, 120, 220);
         Color color = new Color(150,75,0);
         circleActor1.color = color;
         circleActor1.x = 360;
         circleActor1.y = 320;
+
         //VideoRecorder videoRecorder = new VideoRecorder(this, 0,0);
         //videoRecorder.isRigid = false;
 
-        LinearMotion linearMotion = new LinearMotion(rectangleActor1, 100, 100);
-        motions.add(linearMotion);
 
-        //circleActor1.rotate(1f);
+
+        //circleActor.rotate(1f);
         rectangleActor2 = rectangleActor;
         rectangleActor3 = rectangleActor1;
+
+
         //actors.add(circleActor);
-        //actors.add(rectangleActor);
+        actors.add(triangleActor);
+        actors.add(rectangleActor);
         actors.add(rectangleActor1);
-        //actors.add(triangleActor);
+
+
         //actors.add(triangleActor1);
         //actors.add(circleActor1);
         //actors.add(videoRecorder);
 
+        BoxCollider boxCollider = new BoxCollider(this, 800, 568);
 
+        actors.add(boxCollider);
+
+        LinearMotion linearMotion1 = new LinearMotion(circleActor, 600, 200);
+        //motions.add(linearMotion1);
+        LinearMotion linearMotion = new LinearMotion(rectangleActor1, 0, 0);
+        motions.add(linearMotion);
     }
 }
 

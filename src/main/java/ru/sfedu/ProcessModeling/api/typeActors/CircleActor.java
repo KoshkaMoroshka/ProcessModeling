@@ -18,13 +18,16 @@ public class CircleActor extends Actor {
     public void draw(Graphics g) {
         super.draw(g);
         Graphics2D graphics2D = (Graphics2D) g;
-        graphics2D.translate(centerX+x, centerY+y);
+        graphics2D.translate(x + centerX, y + centerY);
         graphics2D.rotate(rotation);
         graphics2D.setColor(color);
         graphics2D.fillOval((int)-width/2, (int)-height/2, (int)width, (int)height);
-        graphics2D.setColor(Color.GREEN);
         graphics2D.rotate(-rotation);
-        graphics2D.translate(-(centerX+x),-(centerY+y));
+        graphics2D.setColor(Color.red);
+        for (int i = 0; i<points[0].length; i++){
+            graphics2D.fillOval((int)points[0][i], (int)points[1][i], 4,4);
+        }
+        graphics2D.translate(-(x + centerX),-(y + centerY));
     }
 
     private float pointFX1, pointFY1, pointFX2, pointFY2;
@@ -37,35 +40,32 @@ public class CircleActor extends Actor {
         if(width > height){
             e = (float) Math.sqrt(1 - b/a);
             c = a * e;
-            float pointX = this.x + a, pointY = this.y + b;
-            pointFX1 = pointX - c;
-            pointFY1 =  pointY;
-            pointFX2 = pointX + c;
-            pointFY2 = pointY;
+            pointFX1 = -c;
+            pointFY1 = 0;
+            pointFX2 = c;
+            pointFY2 = 0;
             focalDistance = 2*a;
         } else{
             e = (float) Math.sqrt(1 - a/b);
             c = b * e;
-            float pointX = this.x + a, pointY = this.y + b;
-            pointFX1 = pointX;
-            pointFY1 =  pointY - c;
-            pointFX2 = pointX;
-            pointFY2 = pointY + c;
+            pointFX1 = 0;
+            pointFY1 = -c;
+            pointFX2 = 0;
+            pointFY2 = c;
             focalDistance = 2*b;
         }
     }
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        x -= this.x + centerX;
-        y -= this.y + centerY;
-        float r = (float) Math.sqrt(x*x + y*y);
-        float cosRotation = (float) Math.cos(-this.rotation);
-        float sinRotation = (float) Math.sin(-this.rotation);
-        x = x - (centerX + x * cosRotation - y * sinRotation);
-        y = y - (centerY + y * cosRotation + x * sinRotation);
-        double d1 = Math.sqrt((pointFX1 - x)*(pointFX1 - x) + (pointFY1 - y)*(pointFY1 - y));
-        double d2 = Math.sqrt((pointFX2 - x)*(pointFX2 - x) + (pointFY2 - y)*(pointFY2 - y));
+        float cosRotation = (float) Math.cos(rotation);
+        float sinRotation = (float) Math.sin(rotation);
+        float rx = -(x - centerX - this.x);
+        float ry = -(y - centerY - this.y);
+        float dx = rx * cosRotation - ry * sinRotation;
+        float dy = ry * cosRotation + rx * sinRotation;
+        double d1 = Math.sqrt((pointFX1 - dx)*(pointFX1 - dx) + (pointFY1 - dy)*(pointFY1 - dy));
+        double d2 = Math.sqrt((pointFX2 - dx)*(pointFX2 - dx) + (pointFY2 - dy)*(pointFY2 - dy));
         return d1+d2 < focalDistance;
     }
 
@@ -125,6 +125,10 @@ public class CircleActor extends Actor {
                 res[0][i] = points[0][i];
                 res[1][i] = points[1][i];
             }
+            for(int i=0; i<res[0].length; i++){
+                res[0][i] -= centerX;
+                res[1][i] -= centerY;
+            }
             return res;
         } else {
             float x0 = (float) Math.sqrt(height * height * (1 - MIN_WIDTH * MIN_WIDTH / 4 / width / width));
@@ -166,12 +170,12 @@ public class CircleActor extends Actor {
                 res[0][i] = points[0][i];
                 res[1][i] = points[1][i];
             }
+            for(int i=0; i<res[0].length; i++){
+                res[0][i] -= centerX;
+                res[1][i] -= centerY;
+            }
             return res;
         }
     }
 
-    @Override
-    public float getNormalAngle(float x, float y, float speedX, float speedY) {
-        return defaultNormalAngle;
-    }
 }

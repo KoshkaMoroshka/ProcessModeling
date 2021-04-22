@@ -23,15 +23,12 @@ public abstract class RigidObject{
     protected float rotation = 0;
     public float points[][];
 
-    public abstract float getNormalAngle(float x, float y, float speedX, float speedY);
 
     public void update(){
         prevPointX = x;
         prevPointY = y;
         x+=speedX;
         y+=speedY;
-        speedX = 0;
-        speedY = 0;
     }
 
     float maxX, maxY, minX, minY;
@@ -90,9 +87,9 @@ public abstract class RigidObject{
         float signX = (speedX - collider.speedX) > 0 ? -1 : 1;
         float pX = speedX * weight + collider.speedX * collider.weight;
         float energyX = speedX * speedX * weight + collider.speedX * collider.speedX * collider.weight;
-        float disX = signX * (float) Math.sqrt(weight*collider.weight*energyX*(weight+collider.weight)-weight*collider.weight*pX*pX);
-        float speedX1 =  (weight*pX + disX)/ weight/(weight+collider.weight);
-        float speedX2 = (collider.weight*pX - disX)/ collider.weight/(weight+collider.weight);
+        float disX = signX * (float) Math.sqrt(weight * collider.weight * energyX * (weight + collider.weight) - weight * collider.weight * pX * pX);
+        float speedX1 = (weight * pX + disX) / weight / (weight + collider.weight);
+        float speedX2 = (collider.weight * pX - disX) / collider.weight / (weight + collider.weight);
 
         float signY = (speedY - collider.speedY) > 0 ? -1 : 1;
         float pY = speedY * weight + collider.speedY * collider.weight;
@@ -101,21 +98,34 @@ public abstract class RigidObject{
         float speedY1 =  (weight*pY + disY)/ weight/(weight+collider.weight);
         float speedY2 = (collider.weight*pY - disY)/ collider.weight/(weight+collider.weight);
 
-        speedX = speedX1; speedY = speedY1;
-        collider.speedX = speedX2; collider.speedY = speedY2;
+        if (inert){
+            if(collider.inert){
+                speedX = speedX1; speedY = speedY1;
+            } else {
+                speedX = collider.speedX - speedX;
+                speedY = collider.speedY - speedY;
+            }
+        }
+        if(collider.inert){
+            if (inert) {
+                collider.speedX = speedX2; collider.speedY = speedY2;
+            } else {
+                collider.speedX = speedX - collider.speedX;
+                collider.speedY = speedY - collider.speedY;
+            }
+        }
         return false;
     }
 
     public float rotate(float rotation){
-        this.rotation+=rotation;
-        float cosRotation = (float) Math.cos(this.rotation);
-        float sinRotation = (float) Math.sin(this.rotation);
+        this.rotation += rotation;
+        float cosRotation = (float) Math.cos(rotation);
+        float sinRotation = (float) Math.sin(rotation);
         for(int i=0; i<points[0].length; i++){
-            float x = points[0][i]-centerX;
-            float y = points[1][i]-centerY;
-            float r = (float) Math.sqrt(x*x + y*y);
-            points[0][i] = centerX + x * cosRotation - y * sinRotation;
-            points[1][i] = centerY + y * cosRotation + x * sinRotation;
+            float x = points[0][i];
+            float y = points[1][i];
+            points[0][i] = x * cosRotation - y * sinRotation;
+            points[1][i] = y * cosRotation + x * sinRotation;
         }
         resolveRect();
         return this.rotation;

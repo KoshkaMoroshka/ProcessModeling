@@ -25,17 +25,27 @@ public class RectangleActor extends Actor {
         graphics2D.translate(centerX + x, centerY + y);
         graphics2D.rotate(rotation);
         graphics2D.setColor(this.color);
-        int[]   bufX = {(int)(masCornerX[0] - centerX), (int)(masCornerX[1] - centerX),(int)(masCornerX[2] - centerX),(int)(masCornerX[3] - centerX)},
-                bufY = {(int)(masCornerY[0] - centerY), (int)(masCornerY[1] - centerY),(int)(masCornerY[2] - centerY),(int)(masCornerY[3] - centerY)};
+        int[]   bufX = {(int)(masCornerX[0]), (int)(masCornerX[1]),(int)(masCornerX[2]),(int)(masCornerX[3])},
+                bufY = {(int)(masCornerY[0]), (int)(masCornerY[1]),(int)(masCornerY[2]),(int)(masCornerY[3])};
         graphics2D.fillPolygon(bufX, bufY, 4);
         graphics2D.setColor(Color.GREEN);
         graphics2D.rotate(-rotation);
+        graphics2D.setColor(Color.magenta);
+        for (int i = 0; i<points[0].length; i++){
+            graphics2D.fillOval((int)points[0][i], (int)points[1][i], 4,4);
+        }
         graphics2D.translate(-(centerX+x), -(centerY + y));
     }
 
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        return  ((x >= this.x &&  x <= this.x+width ) && ( y >= this.y && y <= this.y+height));
+        float cosRotation = (float) Math.cos(rotation);
+        float sinRotation = (float) Math.sin(rotation);
+        float rx = -(x - centerX - this.x);
+        float ry = -(y - centerY - this.y);
+        float dx = rx * cosRotation - ry * sinRotation;
+        float dy = ry * cosRotation + rx * sinRotation;
+        return  ((dx >= -width/2 &&  dx <= width/2 ) && ( dy >= -height/2 && dy <= height/2));
     }
 
     @Override
@@ -84,42 +94,15 @@ public class RectangleActor extends Actor {
         }
         masCornerX[0] = points[0][i-1];
         masCornerY[0] = points[1][i-1];
-        normalAngles[0] = (float) Math.PI/2;
-        normalAngles[1] = 0;
-        normalAngles[2] = (float) -Math.PI/2;
-        normalAngles[3] = (float) Math.PI;
+        for (int k = 0; k<points[0].length; k++){
+            points[0][k] -= centerX;
+            points[1][k] -= centerY;
+        }
+        for (int k=0; k<4; k++){
+            masCornerX[k] -= centerX;
+            masCornerY[k] -= centerY;
+        }
         return points;
     }
 
-    @Override
-    public float getNormalAngle(float x, float y, float speedX, float speedY) {
-        if(x < this.x + width && y < this.y + height){
-            if(lineCrossing(masCornerX[0] + this.x, masCornerY[0] + this.y,
-                    masCornerX[1] + this.x, masCornerY[1] + this.y,
-                    x, y,
-                    x - speedX + this.speedX, y - speedY + this.speedY)){
-                return normalAngles[0];
-            }
-            if(lineCrossing(masCornerX[2] + this.x, masCornerY[2] + this.y,
-                    masCornerX[3] + this.x, masCornerY[3] + this.y,
-                    x, y,
-                    x - speedX + this.speedX, y - speedY + this.speedY)){
-                return normalAngles[2];
-            }
-        } else {
-            if(lineCrossing(masCornerX[1] + this.x, masCornerY[1] + this.y,
-                    masCornerX[2] + this.x, masCornerY[2] + this.y,
-                    x, y,
-                    x - speedX + this.speedX, y - speedY + this.speedY)){
-                return normalAngles[1];
-            }
-            if(lineCrossing(masCornerX[3] + this.x, masCornerY[3] + this.y,
-                    masCornerX[0] + this.x, masCornerY[0] + this.y,
-                    x, y,
-                    x - speedX + this.speedX, y - speedY + this.speedY)){
-                return normalAngles[3];
-            }
-        }
-        return defaultNormalAngle;
-    }
 }

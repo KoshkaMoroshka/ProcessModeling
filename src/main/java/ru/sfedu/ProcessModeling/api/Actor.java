@@ -2,7 +2,7 @@ package ru.sfedu.ProcessModeling.api;
 
 import java.awt.*;
 
-public abstract class Actor extends Collider{
+public abstract class Actor extends Collider {
 
     public Actor(Simulation processing, int width, int height) {
         super(processing, width, height);
