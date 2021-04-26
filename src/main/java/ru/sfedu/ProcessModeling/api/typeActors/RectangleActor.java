@@ -11,7 +11,7 @@ import static ru.sfedu.ProcessModeling.Constants.MIN_WIDTH;
 
 public class RectangleActor extends Actor {
 
-    float masCornerX[], masCornerY[];
+    public float masCornerX[], masCornerY[];
     float[] normalAngles;
 
     public RectangleActor(Simulation processing, int width, int height) {

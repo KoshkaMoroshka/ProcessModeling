@@ -1,16 +1,16 @@
 package ru.sfedu.ProcessModeling.api;
 
 
-import ru.sfedu.ProcessModeling.api.typeActors.BoxCollider;
-import ru.sfedu.ProcessModeling.api.typeActors.CircleActor;
-import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
-import ru.sfedu.ProcessModeling.api.typeActors.TriangleActor;
+import ru.sfedu.ProcessModeling.api.typeActors.*;
 import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -127,7 +127,7 @@ public class Simulation{
         triangleActor1.setSpeedY(2f);
         RectangleActor rectangleActor = new RectangleActor(this, 130, 130);
         rectangleActor.x = 350;
-        rectangleActor.y = 90;
+        rectangleActor.y = 250;
         rectangleActor.setSpeedX(2f);
         rectangleActor.setSpeedY(2f);
         //rectangleActor.rotate(1f);
@@ -135,43 +135,45 @@ public class Simulation{
         rectangleActor1.x = 250;
         rectangleActor1.y = 350;
         rectangleActor1.rotate(1f);
-        CircleActor circleActor = new CircleActor(this, 40, 220);
+        CircleActor circleActor = new CircleActor(this, 120, 220);
         circleActor.setSpeedX(4f);
         circleActor.setSpeedY(0f);
         circleActor.x = 100;
         circleActor.y = 50;
-        CircleActor circleActor1 = new CircleActor(this, 120, 220);
+        CircleActor circleActor1 = new CircleActor(this, 60, 130);
         Color color = new Color(150,75,0);
         circleActor1.color = color;
-        circleActor1.x = 360;
-        circleActor1.y = 320;
+        circleActor1.x = 350;
+        circleActor1.y = 260;
 
-        //VideoRecorder videoRecorder = new VideoRecorder(this, 0,0);
-        //videoRecorder.isRigid = false;
-
-
+        VideoRecorder videoRecorder = new VideoRecorder(this, 500,500);
+        videoRecorder.isRigid = false;
 
         //circleActor.rotate(1f);
-        rectangleActor2 = rectangleActor;
-        rectangleActor3 = rectangleActor1;
 
-
+        //actors.add(triangleActor);
+        //actors.add(rectangleActor);
+        //actors.add(rectangleActor1);
+        //circleActor.rotate(1f);
         //actors.add(circleActor);
-        actors.add(triangleActor);
-        actors.add(rectangleActor);
-        actors.add(rectangleActor1);
-
 
         //actors.add(triangleActor1);
+        //circleActor1.rotate(1f);
         //actors.add(circleActor1);
-        //actors.add(videoRecorder);
+        actors.add(videoRecorder);
 
         BoxCollider boxCollider = new BoxCollider(this, 800, 568);
-
         actors.add(boxCollider);
 
+        BufferedImage image = ImageIO.read(new File("G:\\f\\app\\src\\main\\res\\drawable-nodpi\\artur.png"));
+        GraphicActor graphicActor = new GraphicActor(this, image);
+        graphicActor.x = 100;
+        graphicActor.y = 100;
+        actors.add(graphicActor);
+
+
         LinearMotion linearMotion1 = new LinearMotion(circleActor, 600, 200);
-        //motions.add(linearMotion1);
+        motions.add(linearMotion1);
         LinearMotion linearMotion = new LinearMotion(rectangleActor1, 0, 0);
         motions.add(linearMotion);
     }

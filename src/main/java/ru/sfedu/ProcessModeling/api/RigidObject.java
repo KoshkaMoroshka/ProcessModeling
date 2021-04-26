@@ -17,7 +17,7 @@ public abstract class RigidObject{
     public float speedX = CONSTANT_SPEED_ACTOR, speedY = CONSTANT_SPEED_ACTOR;
     public static final float defaultNormalAngle = 2 * (float)Math.PI;
     public float weight = 1f;
-    public Color color = Color.GREEN;
+    public Color color;
     public float centerX;
     public float centerY;
     protected float rotation = 0;

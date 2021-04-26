@@ -30,43 +30,15 @@ public class CircleActor extends Actor {
         graphics2D.translate(-(x + centerX),-(y + centerY));
     }
 
-    private float pointFX1, pointFY1, pointFX2, pointFY2;
-    private float focalDistance;
-
-    private void findFocusEllipse(float width, float height){
-        float e;
-        float c;
-        float a = width/2, b = height/2;
-        if(width > height){
-            e = (float) Math.sqrt(1 - b/a);
-            c = a * e;
-            pointFX1 = -c;
-            pointFY1 = 0;
-            pointFX2 = c;
-            pointFY2 = 0;
-            focalDistance = 2*a;
-        } else{
-            e = (float) Math.sqrt(1 - a/b);
-            c = b * e;
-            pointFX1 = 0;
-            pointFY1 = -c;
-            pointFX2 = 0;
-            pointFY2 = c;
-            focalDistance = 2*b;
-        }
-    }
-
     @Override
     public boolean pointBelongToArea(float x, float y) {
-        float cosRotation = (float) Math.cos(rotation);
-        float sinRotation = (float) Math.sin(rotation);
+        float cosRotation = (float) Math.cos(-rotation);
+        float sinRotation = (float) Math.sin(-rotation);
         float rx = -(x - centerX - this.x);
         float ry = -(y - centerY - this.y);
         float dx = rx * cosRotation - ry * sinRotation;
         float dy = ry * cosRotation + rx * sinRotation;
-        double d1 = Math.sqrt((pointFX1 - dx)*(pointFX1 - dx) + (pointFY1 - dy)*(pointFY1 - dy));
-        double d2 = Math.sqrt((pointFX2 - dx)*(pointFX2 - dx) + (pointFY2 - dy)*(pointFY2 - dy));
-        return d1+d2 < focalDistance;
+        return ((dx * dx) / (width/2 * width/2)) + ((dy * dy) / (height/2 * height/2)) <= 1;
     }
 
     private float distance(float x1, float y1, float x2, float y2){
@@ -75,7 +47,6 @@ public class CircleActor extends Actor {
 
     @Override
     public float[][] getPoints(float width, float height) {
-        findFocusEllipse(width, height);
         float dAngleRotation;
         float y0 = MIN_HEIGHT / 2;
         float d = MIN_WIDTH / 2;

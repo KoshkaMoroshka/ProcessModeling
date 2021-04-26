@@ -31,7 +31,7 @@ public class VideoRecorder extends RectangleActor {
     @Override
     public void draw(Graphics g){
         try {
-            screenRect.setBounds(0, 0, (int)processing.width - (int)processing.width%2, (int)processing.height - (int)processing.height%2);
+            screenRect.setBounds(0, 0, (int)this.width - (int)this.width%2, (int)this.height - (int)this.height%2);
             sequenceEncoder.encodeImage(robot.createScreenCapture(screenRect));
         }catch (Exception e){
         }
