@@ -1,7 +1,7 @@
-package ru.sfedu.ProcessModeling.api;
+package ru.sfedu.ProcessModeling.api.typeActors;
 
 import org.jcodec.api.awt.AWTSequenceEncoder;
-import ru.sfedu.ProcessModeling.api.typeActors.RectangleActor;
+import ru.sfedu.ProcessModeling.api.Simulation;
 
 import java.awt.*;
 import java.io.File;

@@ -7,7 +7,7 @@ public class GravityMotion extends Motion {
 
     private float prevSpeed = 0;
     private float prevY, prevPrevY;
-    private float damping = 0.4f;
+    public float damping = 0.4f;
 
     public GravityMotion(Actor actor) {
         super(actor);
