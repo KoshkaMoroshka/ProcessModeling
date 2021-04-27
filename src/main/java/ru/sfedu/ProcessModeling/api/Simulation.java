@@ -1,6 +1,5 @@
 package ru.sfedu.ProcessModeling.api;
 
-
 import ru.sfedu.ProcessModeling.api.typeActors.*;
 import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
@@ -24,28 +23,27 @@ public class Simulation{
     public ArrayList<Motion> motions = new ArrayList<>();
     public float width, height;
 
-
-    //JPanel invisibleArea = new JPanel();
-
-
     /***
      * This function create and start simulation
      */
     public void start() throws IOException, AWTException {
-        createWindow();
         createInitialActorObject();
+        createWindow();
         for (Actor actor: actors)
             actor.start();
         startTimer();
     }
 
+    /***
+     * This function needed to stop all update and render actors
+     */
     public void finish(){
         for (Actor actor: actors)
             actor.stop();
     }
 
     /***
-     * Сreates a simulation rendering area
+     * Creates a simulation rendering area
      */
     public void createWindow() throws IOException, AWTException {
         processField = new ProcessField(this);
@@ -94,6 +92,9 @@ public class Simulation{
         processField.repaint();
     }
 
+    /***
+     * Update collisions all actors
+     */
     private void updateCollisions(){
         Actor collider1, collider2;
         for (int i = 0; i<actors.size()-1; i++){
@@ -111,11 +112,9 @@ public class Simulation{
     }
 
     /***
-     * Create all actor objects
+     * Create all objects before create simulation window
      */
-    public RectangleActor rectangleActor2;
-    public RectangleActor rectangleActor3;
-    private void createInitialActorObject() throws IOException, AWTException {
+    public void createInitialActorObject() throws IOException, AWTException {
         TriangleActor triangleActor = new TriangleActor(this, 80, 80);
         triangleActor.x = 100;
         triangleActor.y = 80;
@@ -177,5 +176,11 @@ public class Simulation{
         LinearMotion linearMotion = new LinearMotion(rectangleActor1, 0, 0);
         motions.add(linearMotion);
     }
-}
 
+    public void addActorToSimulation(Actor actor){
+        actors.add(actor);
+    }
+    public void addMotionToSimulation(Motion motion) {
+        motions.add(motion);
+    }
+}
