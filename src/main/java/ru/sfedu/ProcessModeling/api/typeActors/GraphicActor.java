@@ -9,8 +9,8 @@ public class GraphicActor extends RectangleActor {
 
     BufferedImage image;
 
-    public GraphicActor(Simulation processing, BufferedImage image) {
-        super(processing, image.getWidth(), image.getHeight());
+    public GraphicActor(Simulation processing, float x, float y, BufferedImage image) {
+        super(processing, x, y, image.getWidth(), image.getHeight());
         this.image = image;
     }
 

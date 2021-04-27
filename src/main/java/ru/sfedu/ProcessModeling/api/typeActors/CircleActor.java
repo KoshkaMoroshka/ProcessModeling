@@ -11,8 +11,8 @@ import static ru.sfedu.ProcessModeling.Constants.MIN_WIDTH;
 public class CircleActor extends Actor {
     public Color color = Color.GREEN;
 
-    public CircleActor(Simulation processing, int width, int height) {
-        super(processing, width, height);
+    public CircleActor(Simulation processing, float x, float y, int width, int height) {
+        super(processing, x, y, width, height);
     }
     @Override
     public void draw(Graphics g) {

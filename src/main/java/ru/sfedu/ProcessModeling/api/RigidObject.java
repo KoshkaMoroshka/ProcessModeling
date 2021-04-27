@@ -7,8 +7,9 @@ import static ru.sfedu.ProcessModeling.Constants.CONSTANT_SPEED_ACTOR;
 
 public abstract class RigidObject{
 
-    public boolean isRigid = true;
+    public boolean rigid = true;
     public boolean inert = true;
+    public boolean bounce = true;
     public float x, y;
     public float prevPointX , prevPointY;
     public float width = MIN_WIDTH, height = MIN_HEIGHT;
@@ -81,7 +82,7 @@ public abstract class RigidObject{
     }
 
     public boolean onCollision(Collider collider){
-        if(!this.isRigid || !collider.isRigid)
+        if(!this.rigid || !collider.rigid)
             return false;
 
         float signX = (speedX - collider.speedX) > 0 ? -1 : 1;
@@ -98,6 +99,11 @@ public abstract class RigidObject{
         float speedY1 =  (weight*pY + disY)/ weight/(weight+collider.weight);
         float speedY2 = (collider.weight*pY - disY)/ collider.weight/(weight+collider.weight);
 
+        if (!bounce || !collider.bounce){
+            speedX = 0; speedY = 0;
+            collider.speedX = 0; collider.speedY = 0;
+            return false;
+        }
         if (inert){
             if(collider.inert){
                 speedX = speedX1; speedY = speedY1;

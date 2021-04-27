@@ -14,8 +14,8 @@ public class RectangleActor extends Actor {
     public float masCornerX[], masCornerY[];
     float[] normalAngles;
 
-    public RectangleActor(Simulation processing, int width, int height) {
-        super(processing, width, height);
+    public RectangleActor(Simulation processing,float x, float y, int width, int height) {
+        super(processing, x, y, width, height);
     }
 
     @Override

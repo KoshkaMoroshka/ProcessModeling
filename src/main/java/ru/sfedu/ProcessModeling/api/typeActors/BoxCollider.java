@@ -5,9 +5,10 @@ import ru.sfedu.ProcessModeling.api.Simulation;
 
 public class BoxCollider extends Actor {
 
-    public BoxCollider(Simulation processing, int width, int height) {
-        super(processing, width, height);
+    public BoxCollider(Simulation processing, float x, float y, int width, int height) {
+        super(processing, x, y, width, height);
         inert = false;
+        bounce = false;
     }
     @Override
     public boolean pointBelongToArea(float x, float y){

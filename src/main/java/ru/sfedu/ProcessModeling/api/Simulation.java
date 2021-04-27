@@ -1,6 +1,7 @@
 package ru.sfedu.ProcessModeling.api;
 
 import ru.sfedu.ProcessModeling.api.typeActors.*;
+import ru.sfedu.ProcessModeling.api.typeMotions.GravityMotion;
 import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,12 @@ public class Simulation{
     public ArrayList<Actor> actors = new ArrayList<>();
     public ArrayList<Motion> motions = new ArrayList<>();
     public float width, height;
+    public int  windowWidth, windowHeight;
+
+    public Simulation (int width, int height) {
+        windowWidth = width;
+        windowHeight = height;
+    }
 
     /***
      * This function create and start simulation
@@ -55,11 +62,9 @@ public class Simulation{
                 super.windowClosing(e);
             }
         });
-        window.setSize(800, 800);
+        window.setSize(windowWidth, windowHeight);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setContentPane(processField);
-        //invisibleArea.setPreferredSize(new Dimension(800, 800));
-        //window.add(invisibleArea, BorderLayout.WEST);
         window.setVisible(true);
     }
 
@@ -114,73 +119,65 @@ public class Simulation{
     /***
      * Create all objects before create simulation window
      */
-    public void createInitialActorObject() throws IOException, AWTException {
-        TriangleActor triangleActor = new TriangleActor(this, 80, 80);
-        triangleActor.x = 100;
-        triangleActor.y = 80;
+    public void createInitialActorObject() throws IOException {
+        TriangleActor triangleActor = new TriangleActor(this, 400, 100, 80, 80);
+
         //triangleActor.rotate(1f);
-        TriangleActor triangleActor1 = new TriangleActor(this, 40, 40);
-        triangleActor1.x = 250;
-        triangleActor1.y = 200;
-        triangleActor1.setSpeedX(2f);
-        triangleActor1.setSpeedY(2f);
-        RectangleActor rectangleActor = new RectangleActor(this, 130, 130);
-        rectangleActor.x = 350;
-        rectangleActor.y = 250;
-        rectangleActor.setSpeedX(2f);
-        rectangleActor.setSpeedY(2f);
+
+        TriangleActor triangleActor1 = new TriangleActor(this, 250, 200, 40, 40);
+
+        RectangleActor rectangleActor = new RectangleActor(this, 350, 250, 130, 130);
         //rectangleActor.rotate(1f);
-        RectangleActor rectangleActor1 = new RectangleActor(this, 80, 80);
-        rectangleActor1.x = 250;
-        rectangleActor1.y = 350;
+
+        RectangleActor rectangleActor1 = new RectangleActor(this, 250, 350, 80, 80);
         rectangleActor1.rotate(1f);
-        CircleActor circleActor = new CircleActor(this, 120, 220);
-        circleActor.setSpeedX(4f);
-        circleActor.setSpeedY(0f);
-        circleActor.x = 100;
-        circleActor.y = 50;
-        CircleActor circleActor1 = new CircleActor(this, 60, 130);
+
+        CircleActor circleActor = new CircleActor(this, 100, 50, 120, 220);
+        //circleActor.rotate(1f);
+
+        CircleActor circleActor1 = new CircleActor(this, 350, 260, 60, 130);
         Color color = new Color(150,75,0);
         circleActor1.color = color;
-        circleActor1.x = 350;
-        circleActor1.y = 260;
+        //circleActor1.rotate(1f);
 
         VideoRecorder videoRecorder = new VideoRecorder(this, 500,500);
-        videoRecorder.isRigid = false;
+        videoRecorder.rigid = false;
 
-        //circleActor.rotate(1f);
-
-        //actors.add(triangleActor);
-        //actors.add(rectangleActor);
-        //actors.add(rectangleActor1);
-        //circleActor.rotate(1f);
-        //actors.add(circleActor);
-
-        //actors.add(triangleActor1);
-        //circleActor1.rotate(1f);
-        //actors.add(circleActor1);
-        actors.add(videoRecorder);
-
-        BoxCollider boxCollider = new BoxCollider(this, 800, 568);
-        actors.add(boxCollider);
+        BoxCollider boxCollider = new BoxCollider(this, 0, 0, 800, 742);
+        //boxCollider.inert = true;
 
         BufferedImage image = ImageIO.read(new File("G:\\f\\app\\src\\main\\res\\drawable-nodpi\\artur.png"));
-        GraphicActor graphicActor = new GraphicActor(this, image);
-        graphicActor.x = 100;
-        graphicActor.y = 100;
+        GraphicActor graphicActor = new GraphicActor(this, 100, 100, image);
+
+        actors.add(triangleActor);
+        //actors.add(rectangleActor);
+        //actors.add(rectangleActor1);
+        //actors.add(circleActor);
+        //actors.add(triangleActor1);
+        //actors.add(circleActor1);
+        //actors.add(videoRecorder);
         actors.add(graphicActor);
+        actors.add(boxCollider);
 
 
         LinearMotion linearMotion1 = new LinearMotion(circleActor, 600, 200);
+
+        LinearMotion linearMotion = new LinearMotion(triangleActor, 600, 567);
+
+        GravityMotion gravityMotion = new GravityMotion(triangleActor);
+
+
         motions.add(linearMotion1);
-        LinearMotion linearMotion = new LinearMotion(rectangleActor1, 0, 0);
-        motions.add(linearMotion);
+        //motions.add(linearMotion);
+        motions.add(gravityMotion);
     }
 
-    public void addActorToSimulation(Actor actor){
+    public boolean addActorToSimulation(Actor actor){
         actors.add(actor);
+        return true;
     }
-    public void addMotionToSimulation(Motion motion) {
+    public boolean addMotionToSimulation(Motion motion) {
         motions.add(motion);
+        return true;
     }
 }

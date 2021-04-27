@@ -15,7 +15,7 @@ public class VideoRecorder extends RectangleActor {
     String nameFile = "G:\\HahaBenis\\stringCoco.mp4";
 
     public VideoRecorder(Simulation processing, int width, int height) {
-        super(processing, width, height);
+        super(processing,0, 0, width, height);
 
     }
     public void startVideo() throws AWTException, IOException {

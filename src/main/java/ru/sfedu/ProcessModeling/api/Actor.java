@@ -4,8 +4,10 @@ import java.awt.*;
 
 public abstract class Actor extends Collider {
 
-    public Actor(Simulation processing, int width, int height) {
+    public Actor(Simulation processing, float x, float y, int width, int height) {
         super(processing, width, height);
+        this.x = x;
+        this.y = y;
     }
 
     public void draw(Graphics g){

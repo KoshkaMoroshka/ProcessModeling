@@ -11,8 +11,8 @@ public class TriangleActor extends Actor {
 
     float[] masCornerX, masCornerY;
 
-    public TriangleActor(Simulation processing, int width, int height) {
-        super(processing, width, height);
+    public TriangleActor(Simulation processing,float x, float y, int width, int height) {
+        super(processing, x, y, width, height);
     }
 
     @Override
