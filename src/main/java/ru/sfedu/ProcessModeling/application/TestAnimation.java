@@ -13,7 +13,7 @@ public class TestAnimation extends Simulation {
     }
 
     @Override
-    public void createInitialActorObject() throws IOException {
+    public void createInitialObject() throws IOException {
         AnimatedActor canterHorse = new AnimatedActor();
         canterHorse.createAnimatedActor(this, 100, 150, 1, "D:\\AnimatedHorse\\canter");
 
@@ -30,7 +30,8 @@ public class TestAnimation extends Simulation {
         jumpHorse.createAnimatedActor(this, 200, 500, 1, "D:\\AnimatedHorse\\jump");
 
         VideoRecorder videoRecorder = new VideoRecorder(this, this.windowWidth, this.windowHeight,
-                                            "D:\\AnimatedHorse\\horseMove.mp4", 5);
+                                            "D:\\AnimatedHorse\\horseMove.mp4", 3);
+
 
         actors.add(canterHorse);
         actors.add(trotHorse);

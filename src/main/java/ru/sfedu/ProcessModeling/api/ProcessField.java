@@ -8,6 +8,9 @@ public class ProcessField extends JPanel {
 
     public ProcessField(Simulation processing){
         this.processing = processing;
+        this.setLayout(null);
+        for(JButton button: processing.buttons)
+            this.add(button);
     }
     int i = 0;
     @Override
@@ -18,5 +21,6 @@ public class ProcessField extends JPanel {
         for(Actor actor : processing.actors)
             actor.draw(g);
         }
+
 }
 
