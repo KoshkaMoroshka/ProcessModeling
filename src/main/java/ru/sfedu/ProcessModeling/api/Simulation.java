@@ -22,10 +22,12 @@ public class Simulation{
     public ArrayList<Motion> motions = new ArrayList<>();
     public float width, height;
     public int  windowWidth, windowHeight;
+    public int timeToChangeFrame;
 
-    public Simulation (int width, int height) {
+    public Simulation (int width, int height, int timeToChangeFrame) {
         windowWidth = width;
         windowHeight = height;
+        this.timeToChangeFrame = timeToChangeFrame;
     }
 
     /***
@@ -78,7 +80,7 @@ public class Simulation{
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(task, 0, 340);
+        timer.scheduleAtFixedRate(task, 0, timeToChangeFrame);
     }
 
     /***

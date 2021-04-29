@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public class TestAnimation extends Simulation {
 
-    public TestAnimation(int width, int height) {
-        super(width, height);
+    public TestAnimation(int width, int height, int timeToChangeFrame) {
+        super(width, height, timeToChangeFrame);
     }
 
     @Override
