@@ -18,6 +18,5 @@ public class ProcessField extends JPanel {
         for(Actor actor : processing.actors)
             actor.draw(g);
         }
-
 }
 

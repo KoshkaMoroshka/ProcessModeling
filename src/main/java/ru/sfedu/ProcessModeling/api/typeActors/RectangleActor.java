@@ -18,6 +18,10 @@ public class RectangleActor extends Actor {
         super(processing, x, y, width, height);
     }
 
+    protected RectangleActor(){
+        super();
+    };
+
     @Override
     public void draw(Graphics g){
         super.draw(g);

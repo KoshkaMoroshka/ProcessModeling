@@ -1,9 +1,6 @@
 package ru.sfedu.ProcessModeling.api;
 
 import ru.sfedu.ProcessModeling.api.typeActors.*;
-import ru.sfedu.ProcessModeling.api.typeMotions.GravityMotion;
-import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
-import ru.sfedu.ProcessModeling.api.typeMotions.SlidingMotion;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -81,7 +78,7 @@ public class Simulation{
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(task, 0, 20);
+        timer.scheduleAtFixedRate(task, 0, 240);
     }
 
     /***
@@ -150,10 +147,14 @@ public class Simulation{
         BufferedImage image = ImageIO.read(new File("G:\\f\\app\\src\\main\\res\\drawable-nodpi\\artur.png"));
         GraphicActor graphicActor = new GraphicActor(this, 100, 100, image);
 
+        AnimatedActor animatedActor = new AnimatedActor();
+        animatedActor.createAnimatedActor(this, 250, 250, 1, "D:\\Animated");
+
         //actors.add(triangleActor);
         //actors.add(rectangleActor);
         //actors.add(rectangleActor1);
-        actors.add(circleActor);
+        //actors.add(circleActor);
+        actors.add(animatedActor);
         //actors.add(triangleActor1);
         //actors.add(circleActor1);
         //actors.add(videoRecorder);
@@ -161,19 +162,19 @@ public class Simulation{
         actors.add(boxCollider);
 
 
-        LinearMotion linearMotion1 = new LinearMotion(circleActor, 300, 300);
+        //LinearMotion linearMotion1 = new LinearMotion(circleActor, 300, 300);
 
-        LinearMotion linearMotion = new LinearMotion(triangleActor, 600, 567);
+        //LinearMotion linearMotion = new LinearMotion(triangleActor, 600, 567);
 
-        GravityMotion gravityMotion = new GravityMotion(triangleActor);
+        //GravityMotion gravityMotion = new GravityMotion(triangleActor);
 
-        SlidingMotion slidingMotion = new SlidingMotion(circleActor, 0.2f);
+        //PushMotion pushMotion = new PushMotion(circleActor, 0.01f, 2, 2);
 
 
         //motions.add(linearMotion1);
         //motions.add(linearMotion);
-        motions.add(gravityMotion);
-        //motions.add(slidingMotion);
+        //motions.add(gravityMotion);
+        //motions.add(pushMotion);
     }
 
     public boolean addActorToSimulation(Actor actor){

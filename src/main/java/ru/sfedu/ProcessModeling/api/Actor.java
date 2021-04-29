@@ -10,6 +10,10 @@ public abstract class Actor extends Collider {
         this.y = y;
     }
 
+    protected Actor(){
+        super();
+    };
+
     public void draw(Graphics g){
 
     }

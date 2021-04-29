@@ -11,6 +11,8 @@ public abstract class Collider extends RigidObject {
         resolveRect();
     }
 
+    protected Collider(){};
+
     public abstract boolean pointBelongToArea(float x, float y);
     public boolean collision(Collider collider){
         if(this == collider)

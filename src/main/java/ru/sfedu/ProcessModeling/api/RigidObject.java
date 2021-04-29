@@ -13,17 +13,14 @@ public abstract class RigidObject{
     public float x, y;
     public float prevPointX , prevPointY;
     public float width = MIN_WIDTH, height = MIN_HEIGHT;
-    public float scaleX = CONSTANT_SCALE_OBJECTS, scaleY = CONSTANT_SCALE_OBJECTS;
     protected Simulation processing;
     public float speedX = CONSTANT_SPEED_ACTOR, speedY = CONSTANT_SPEED_ACTOR;
-    public static final float defaultNormalAngle = 2 * (float)Math.PI;
     public float weight = 1f;
     public Color color;
     public float centerX;
     public float centerY;
     protected float rotation = 0;
     public float points[][];
-
 
     public void update(){
         prevPointX = x;
