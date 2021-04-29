@@ -31,7 +31,7 @@ public class Simulation{
     /***
      * This function create and start simulation
      */
-    public void start() throws IOException, AWTException {
+    public void start() throws IOException {
         createInitialActorObject();
         createWindow();
         for (Actor actor: actors)
@@ -51,7 +51,7 @@ public class Simulation{
     /***
      * Creates a simulation rendering area
      */
-    public void createWindow() throws IOException, AWTException {
+    public void createWindow(){
         processField = new ProcessField(this);
         window = new JFrame("ProcessField");
         window.addWindowListener(new WindowAdapter() {
@@ -78,7 +78,7 @@ public class Simulation{
             }
         };
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(task, 0, 240);
+        timer.scheduleAtFixedRate(task, 0, 340);
     }
 
     /***
@@ -90,8 +90,8 @@ public class Simulation{
         updateCollisions();
         for (Actor actor : actors) {
             actor.update();
-            //actor.speedX = 0;
-            //actor.speedY = 0;
+            actor.speedX = 0;
+            actor.speedY = 0;
         }
         processField.repaint();
     }
@@ -138,7 +138,7 @@ public class Simulation{
         circleActor1.color = color;
         //circleActor1.rotate(1f);
 
-        VideoRecorder videoRecorder = new VideoRecorder(this, 500,500);
+        VideoRecorder videoRecorder = new VideoRecorder(this, 500,500, "G:\\HahaBenis\\stringCoco.mp4", 24);
         videoRecorder.rigid = false;
 
         BoxCollider boxCollider = new BoxCollider(this, 0, 0, 800, 742);
@@ -153,13 +153,14 @@ public class Simulation{
         //actors.add(triangleActor);
         //actors.add(rectangleActor);
         //actors.add(rectangleActor1);
-        //actors.add(circleActor);
-        actors.add(animatedActor);
+        actors.add(circleActor);
+        //actors.add(animatedActor);
         //actors.add(triangleActor1);
         //actors.add(circleActor1);
         //actors.add(videoRecorder);
         //actors.add(graphicActor);
         actors.add(boxCollider);
+
 
 
         //LinearMotion linearMotion1 = new LinearMotion(circleActor, 300, 300);
@@ -169,7 +170,6 @@ public class Simulation{
         //GravityMotion gravityMotion = new GravityMotion(triangleActor);
 
         //PushMotion pushMotion = new PushMotion(circleActor, 0.01f, 2, 2);
-
 
         //motions.add(linearMotion1);
         //motions.add(linearMotion);

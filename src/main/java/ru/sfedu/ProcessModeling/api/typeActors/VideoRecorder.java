@@ -10,19 +10,21 @@ import java.io.IOException;
 public class VideoRecorder extends RectangleActor {
 
     private AWTSequenceEncoder sequenceEncoder;
-    Robot robot;
-    Rectangle screenRect;
-    String nameFile = "G:\\HahaBenis\\stringCoco.mp4";
+    private Robot robot;
+    private Rectangle screenRect;
+    public String nameFile;
+    int fpsVideo;
 
-    public VideoRecorder(Simulation processing, int width, int height) {
+    public VideoRecorder(Simulation processing, int width, int height, String pathAndNameSave, int fpsVideo) {
         super(processing,0, 0, width, height);
-
+        nameFile = pathAndNameSave;
+        this.fpsVideo = fpsVideo;
     }
     public void startVideo() throws AWTException, IOException {
             robot = new Robot();
             screenRect = new Rectangle((int)processing.width, (int)processing.height);
             File file = new File(nameFile);
-            sequenceEncoder = AWTSequenceEncoder.createSequenceEncoder(file, 50);
+            sequenceEncoder = AWTSequenceEncoder.createSequenceEncoder(file, fpsVideo);
     }
     public void finishVideo() throws IOException {
         sequenceEncoder.finish();
