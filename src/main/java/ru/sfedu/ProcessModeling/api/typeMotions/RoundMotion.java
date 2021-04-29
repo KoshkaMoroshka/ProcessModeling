@@ -19,7 +19,7 @@ public class RoundMotion extends Motion {
         float dx = pointX - (movingActor.x + movingActor.centerX);
         float dy = pointY - (movingActor.y + movingActor.centerY);
         r = (float) Math.sqrt(dx * dx + dy * dy);
-        movingActor.speedX = speed * (dy/r);
-        movingActor.speedY = -speed * (dx/r);
+        movingActor.speedX += speed * (dy/r);
+        movingActor.speedY += -speed * (dx/r);
     }
 }
