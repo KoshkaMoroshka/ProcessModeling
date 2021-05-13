@@ -61,8 +61,8 @@ public class TriangleActor extends Actor {
         centerX = (width + 0 + width/2)/3;
         centerY = (height + height + 0)/3;
 
-        points[0][0] = 0;
-        points[1][0] = height;
+        points[0][0] = 0 - centerX;
+        points[1][0] = height - centerY;
         masCornerX[0] = points[0][i-1];
         masCornerY[0] = points[1][i-1];
         for (int k =1; k <= countPointsGrounds+1; k++, i++){
@@ -81,6 +81,8 @@ public class TriangleActor extends Actor {
             points[0][i] = points[0][i-1] - (width/2) / (countPointsEdge+1);
             points[1][i] = points[1][i-1] + height / (countPointsEdge+1);
         }
+
+
 
         return points;
     }

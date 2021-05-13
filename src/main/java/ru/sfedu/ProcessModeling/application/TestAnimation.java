@@ -30,14 +30,17 @@ public class TestAnimation extends Simulation {
         jumpHorse.createAnimatedActor(this, 200, 500, 1, "D:\\AnimatedHorse\\jump");
 
         VideoRecorder videoRecorder = new VideoRecorder(this, this.windowWidth, this.windowHeight,
-                                            "D:\\AnimatedHorse\\horseMove.mp4", 3);
+                                            "D:\\AnimatedHorse\\dino.mp4", 10);
 
+        AnimatedActor dino = new AnimatedActor();
+        dino.createAnimatedActor(this, 0, 0, 1, "D:\\AnimatedHorse\\dino");
 
-        actors.add(canterHorse);
-        actors.add(trotHorse);
-        actors.add(gallopHorse);
-        actors.add(walkHorse);
-        actors.add(jumpHorse);
+        //actors.add(canterHorse);
+        //actors.add(trotHorse);
+        //actors.add(gallopHorse);
+        //actors.add(walkHorse);
+        //actors.add(jumpHorse);
+        actors.add(dino);
         actors.add(videoRecorder);
     }
 }

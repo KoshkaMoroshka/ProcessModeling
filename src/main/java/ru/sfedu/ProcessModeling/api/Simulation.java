@@ -1,7 +1,8 @@
 package ru.sfedu.ProcessModeling.api;
 
 import ru.sfedu.ProcessModeling.api.typeActors.*;
-import ru.sfedu.ProcessModeling.api.typeMotions.RoundMotion;
+import ru.sfedu.ProcessModeling.api.typeMotions.EllipseRollMotion;
+import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -36,8 +37,8 @@ public class Simulation{
      * This function create and start simulation
      */
     public void start() throws IOException {
-        createInitialObject();
         createWindow();
+        createInitialObject();
         for (Actor actor: actors)
             actor.start();
 
@@ -94,7 +95,6 @@ public class Simulation{
         updateCollisions();
         for (Actor actor : actors) {
             actor.update();
-            actor.rotate(0.1f);
             actor.speedX = 0;
             actor.speedY = 0;
         }
@@ -124,26 +124,30 @@ public class Simulation{
      * Create all objects before create simulation window
      */
     public void createInitialObject() throws IOException {
-        TriangleActor triangleActor = new TriangleActor(this, 400, 100, 80, 80);
+        TriangleActor triangleActor = new TriangleActor(this, 450, 400, 80, 80);
         //triangleActor.rotate(1f);
 
-        TriangleActor triangleActor1 = new TriangleActor(this, 250, 200, 40, 40);
+        TriangleActor triangleActor1 = new TriangleActor(this, 100, 100, 130, 130);
 
-        RectangleActor rectangleActor = new RectangleActor(this, 350, 250, 130, 130);
+        RectangleActor rectangleActor = new RectangleActor(this, 250, 135, 130, 130);
         //rectangleActor.rotate(1f);
 
-        RectangleActor rectangleActor1 = new RectangleActor(this, 250, 350, 80, 80);
-        rectangleActor1.rotate(1f);
+        RectangleActor rectangleActor1 = new RectangleActor(this, 450, 135, 130, 130);
+        Color color = new Color(6, 175, 150, 235);
+        rectangleActor1.color = color;
+        //rectangleActor1.rotate(1f);
 
-        CircleActor circleActor = new CircleActor(this, 100, 100, 100, 40);
+        CircleActor circleActor = new CircleActor(this, 100, 300, 180, 100);
+        color = new Color(6, 118, 175, 245);
+        circleActor.color = color;
         //circleActor.rotate(1f);
 
-        CircleActor circleActor1 = new CircleActor(this, 300, 250, 60, 130);
-        Color color = new Color(150,75,0);
+        CircleActor circleActor1 = new CircleActor(this, 300, 400, 40, 40);
+        color = new Color(6, 118, 175, 245);
         circleActor1.color = color;
         //circleActor1.rotate(1f);
 
-        VideoRecorder videoRecorder = new VideoRecorder(this, 500,500, "G:\\HahaBenis\\stringCoco.mp4", 24);
+        VideoRecorder videoRecorder = new VideoRecorder(this, 800,800, "G:\\HahaBenis\\stringCoco.mp4", 20);
         videoRecorder.rigid = false;
 
         BoxCollider boxCollider = new BoxCollider(this, 0, 0, 800, 742);
@@ -153,36 +157,40 @@ public class Simulation{
         GraphicActor graphicActor = new GraphicActor(this, 100, 100, image);
 
         AnimatedActor animatedActor = new AnimatedActor();
-        animatedActor.createAnimatedActor(this, 250, 250, 1, "D:\\Animated");
+        animatedActor.createAnimatedActor(this, 250, 200, 1, "D:\\Animated");
 
         //actors.add(triangleActor);
         //actors.add(rectangleActor);
         //actors.add(rectangleActor1);
-        //actors.add(circleActor);
+        actors.add(circleActor);
         //actors.add(animatedActor);
         //actors.add(triangleActor1);
         //actors.add(circleActor1);
-        //actors.add(videoRecorder);
-        actors.add(graphicActor);
-        actors.add(boxCollider);
+        actors.add(videoRecorder);
+        //actors.add(graphicActor);
+        //actors.add(boxCollider);
 
 
-        //LinearMotion linearMotion1 = new LinearMotion(circleActor, 300, 300);
+        //LinearMotion linearMotion1 = new LinearMotion(rectangleActor, 735, 200);
 
-        //LinearMotion linearMotion = new LinearMotion(triangleActor, 600, 567);
+        LinearMotion linearMotion = new LinearMotion(circleActor, 550, 350);
 
         //GravityMotion gravityMotion = new GravityMotion(triangleActor);
 
         //PushMotion pushMotion = new PushMotion(circleActor, 0.01f, 2, 2);
 
-        RoundMotion roundMotion = new RoundMotion(graphicActor, 250, 250);
-        roundMotion.speed = -10;
+        //RoundMotion roundMotion = new RoundMotion(triangleActor1, 350, 350);
+        //roundMotion.speed = 0.2f;
+
+        EllipseRollMotion ellipseRollMotion = new EllipseRollMotion(circleActor);
+        ellipseRollMotion.speed = 2f;
 
         //motions.add(linearMotion1);
-        //motions.add(linearMotion);
+        motions.add(linearMotion);
         //motions.add(gravityMotion);
         //motions.add(pushMotion);
-        motions.add(roundMotion);
+        //motions.add(roundMotion);
+        //motions.add(ellipseRollMotion);
     }
 
     public boolean addActorToSimulation(Actor actor){

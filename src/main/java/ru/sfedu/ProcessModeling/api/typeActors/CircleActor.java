@@ -24,8 +24,9 @@ public class CircleActor extends Actor {
         graphics2D.fillOval((int)-width/2, (int)-height/2, (int)width, (int)height);
         graphics2D.rotate(-rotation);
         graphics2D.setColor(Color.red);
+        //this.rotate(0.01f);
         for (int i = 0; i<points[0].length; i++){
-            graphics2D.fillOval((int)points[0][i], (int)points[1][i], 4,4);
+            graphics2D.fillOval((int)points[0][i]-4, (int)points[1][i]-4, 4,4);
         }
         graphics2D.translate(-(x + centerX),-(y + centerY));
     }

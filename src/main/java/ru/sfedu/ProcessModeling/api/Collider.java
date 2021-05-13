@@ -15,7 +15,7 @@ public abstract class Collider extends RigidObject {
 
     public abstract boolean pointBelongToArea(float x, float y);
     public boolean collision(Collider collider){
-        if(this == collider)
+        if(this == collider || !this.rigid || !collider.rigid)
             return false;
         for (int i=0; i<points[0].length; i++)
             if(collider.pointBelongToArea(points[0][i] + x + centerX,points[1][i] + y + centerY))

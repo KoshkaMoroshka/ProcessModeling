@@ -19,6 +19,9 @@ public class VideoRecorder extends RectangleActor {
         super(processing,0, 0, width, height);
         nameFile = pathAndNameSave;
         this.fpsVideo = fpsVideo;
+        rigid = false;
+        inert = false;
+        bounce = false;
     }
     public void startVideo() throws AWTException, IOException {
             robot = new Robot();
