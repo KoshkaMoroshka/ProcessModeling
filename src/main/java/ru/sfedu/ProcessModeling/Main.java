@@ -1,6 +1,6 @@
 package ru.sfedu.ProcessModeling;
 
-import ru.sfedu.ProcessModeling.application.CrashTestScene;
+import ru.sfedu.ProcessModeling.application.GameScene;
 
 import java.awt.*;
 import java.io.IOException;
@@ -16,7 +16,10 @@ public class Main {
         //MainMenu menu = new MainMenu(300, 300, 20) ;
         //menu.start();
 
-        CrashTestScene scene = new CrashTestScene(2000, 1000, 20);
-        scene.start();
+        //CrashTestScene scene = new CrashTestScene(2000, 1000, 20);
+        //scene.start();
+
+        GameScene gameScene = new GameScene(1200, 720, 20);
+        gameScene.start();
     }
 }

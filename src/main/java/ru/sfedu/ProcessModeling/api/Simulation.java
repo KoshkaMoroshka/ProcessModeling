@@ -1,5 +1,6 @@
 package ru.sfedu.ProcessModeling.api;
 
+import ru.sfedu.ProcessModeling.api.events.EventManager;
 import ru.sfedu.ProcessModeling.api.typeActors.*;
 import ru.sfedu.ProcessModeling.api.typeMotions.EllipseRollMotion;
 import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
@@ -19,10 +20,12 @@ import java.util.TimerTask;
 public class Simulation{
 
     public JFrame window;
-    private ProcessField processField;
+    protected ProcessField processField;
     public ArrayList<Actor> actors = new ArrayList<>();
     public ArrayList<Motion> motions = new ArrayList<>();
     public ArrayList<JButton> buttons = new ArrayList<>();
+    public EventManager manager = new EventManager();
+    protected int keyCode;
     public float width, height;
     public int  windowWidth, windowHeight;
     public int timeToChangeFrame;
@@ -41,7 +44,6 @@ public class Simulation{
         createInitialObject();
         for (Actor actor: actors)
             actor.start();
-
         startTimer();
     }
 
@@ -98,6 +100,7 @@ public class Simulation{
             actor.speedX = 0;
             actor.speedY = 0;
         }
+        manager.updateListeners();
         processField.repaint();
     }
 
