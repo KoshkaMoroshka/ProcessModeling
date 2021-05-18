@@ -13,6 +13,7 @@ public class EllipseRollMotion extends Motion {
         h = actor.height;
     }
 
+    //This motion doesn't work :(
     @Override
     protected void move() {
         float cos = (float) Math.cos(phase/2);

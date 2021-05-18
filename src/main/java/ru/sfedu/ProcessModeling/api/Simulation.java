@@ -2,7 +2,6 @@ package ru.sfedu.ProcessModeling.api;
 
 import ru.sfedu.ProcessModeling.api.events.EventManager;
 import ru.sfedu.ProcessModeling.api.typeActors.*;
-import ru.sfedu.ProcessModeling.api.typeMotions.EllipseRollMotion;
 import ru.sfedu.ProcessModeling.api.typeMotions.LinearMotion;
 
 import javax.imageio.ImageIO;
@@ -185,8 +184,7 @@ public class Simulation{
         //RoundMotion roundMotion = new RoundMotion(triangleActor1, 350, 350);
         //roundMotion.speed = 0.2f;
 
-        EllipseRollMotion ellipseRollMotion = new EllipseRollMotion(circleActor);
-        ellipseRollMotion.speed = 2f;
+
 
         //motions.add(linearMotion1);
         motions.add(linearMotion);
