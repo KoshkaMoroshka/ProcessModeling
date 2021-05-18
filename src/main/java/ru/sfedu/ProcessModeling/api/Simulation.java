@@ -113,11 +113,11 @@ public class Simulation{
             for (int k = i+1; k < actors.size(); k++){
                 collider2 = actors.get(k);
                 if(collider1.collision(collider2) || collider2.collision(collider1)){
-                    collider1.color = Color.RED;
+                    collider1.color = collider1.color;
                     collider1.onCollision(collider2);
                     collider1.update();
                     collider2.update();
-                }else collider1.color = Color.BLUE;
+                }else collider1.color = collider1.color;
             }
         }
     }

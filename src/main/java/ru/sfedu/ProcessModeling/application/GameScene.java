@@ -23,13 +23,14 @@ public class GameScene extends Simulation {
     EllipseGraphicActor[] meteors;
     LinearMotion[] meteorsMotions;
     SpinMotion[] spinMeteorsMotions;
+    int countHeart = 3;
 
     public GameScene(int width, int height, int timeToChangeFrame) {
         super(width, height, timeToChangeFrame);
     }
 
     private void updateSpeedMeteor(LinearMotion linearMotion, SpinMotion spinMotion){
-        linearMotion.speed = 0.5f + random.nextFloat()*3f;
+        linearMotion.speed = 2f + random.nextFloat()*3f;
         spinMotion.speed = linearMotion.speed * (random.nextBoolean() ? 1f : -1f) / 16;
     }
 
@@ -37,8 +38,6 @@ public class GameScene extends Simulation {
     public void createInitialObject() throws IOException {
         window.setResizable(false);
         window.setLocation(380, 120);
-
-        BufferedImage imageHeart = ImageIO.read(new File(Constants.PATH_TO_IMAGE_HEART));
 
         BufferedImage image = ImageIO.read(new File(Constants.PATH_TO_IMAGE_SPACE));
         RectangleGraphicActor space = new RectangleGraphicActor(this, 0,0, image);
@@ -60,7 +59,7 @@ public class GameScene extends Simulation {
         BufferedImage imageNLO = ImageIO.read(new File(Constants.PATH_TO_IMAGE_NLO));
         RectangleGraphicActor nlo = new RectangleGraphicActor(this, 0, 300, imageNLO);
         LinearMotion gravityNLO = new LinearMotion(nlo, nlo.centerX, window.getHeight() - 2 * nlo.centerY - 20);
-        gravityNLO.speed = 1.5f;
+        gravityNLO.speed = 3f;
         LinearMotion motion = new LinearMotion(nlo, nlo.centerX,0 + nlo.centerX + 20);
         motion.speed = 0f;
         actors.add(nlo);
@@ -73,7 +72,7 @@ public class GameScene extends Simulation {
         meteorsMotions = new LinearMotion[(int)((window.getHeight() - 50) / imageMeteor.getHeight()) - 1];
         spinMeteorsMotions = new SpinMotion[(int)((window.getHeight() - 50) / imageMeteor.getHeight()) - 1];
         for(int i = 0; i < meteors.length; i++, meteorY += imageMeteor.getHeight() + 10) {
-            actors.add(meteors[i] = new EllipseGraphicActor(this, meteorX + random.nextFloat() * 100,
+            actors.add(meteors[i] = new EllipseGraphicActor(this, meteorX + random.nextFloat() * 1000,
                     meteorY, imageMeteor));
             meteorsMotions[i] = new LinearMotion(meteors[i], -60, meteors[i].centerY + meteors[i].y);
             spinMeteorsMotions[i] = new SpinMotion(meteors[i], 0);
@@ -82,10 +81,22 @@ public class GameScene extends Simulation {
             motions.add(spinMeteorsMotions[i]);
         }
 
-        RectangleActor rectangleActor = new RectangleActor(this, 0, 0 , window.getWidth(), 50);
+        RectangleActor rectangleActor = new RectangleActor(this, 0, 0 , window.getWidth(), 55);
         rectangleActor.inert = false;
+        rectangleActor.rigid = false;
         rectangleActor.color = new Color(0, 0, 0, 220);
         actors.add(rectangleActor);
+
+        BufferedImage imageHeart = ImageIO.read(new File(Constants.PATH_TO_IMAGE_HEART));
+        float heartX = window.getWidth() - imageHeart.getHeight() - imageHeart.getHeight() - imageHeart.getHeight() - 50, heartY = 0;
+        RectangleGraphicActor[] heartActors = new RectangleGraphicActor[3];
+        for(int i = 0; i < 3; i++, heartX += imageHeart.getHeight() + 10){
+            heartActors[i] = new RectangleGraphicActor(this, heartX, heartY, imageHeart);
+            heartActors[i].inert = false;
+            heartActors[i].rigid = false;
+            heartActors[i].bounce = false;
+            actors.add(heartActors[i]);
+        }
 
         window.addKeyListener(new KeyListener() {
             @Override
@@ -95,7 +106,7 @@ public class GameScene extends Simulation {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE){
-                    motion.speed = 3f;
+                    motion.speed = 6f;
                 }
             }
             @Override
@@ -120,6 +131,14 @@ public class GameScene extends Simulation {
                 if(meteors[i].collision(nlo) || nlo.collision(meteors[i])){
                     meteors[i].x = window.getWidth() + 80;
                     updateSpeedMeteor(meteorsMotions[i], spinMeteorsMotions[i]);
+                    if (countHeart > 0) {
+                        actors.remove(actors.size() - countHeart);
+                        countHeart--;
+                        if (countHeart == 0) {
+                            window.setVisible(false); //you can't see me!
+                            window.dispose();
+                        }
+                    }
                 }
             }
         });

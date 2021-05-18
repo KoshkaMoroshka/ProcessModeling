@@ -8,5 +8,5 @@ public class Constants {
     public static final String PATH_TO_IMAGE_METEOR = "./src/main/resources/meteor.png";
     public static final String PATH_TO_IMAGE_NLO = "./src/main/resources/nlo.png";
     public static final String PATH_TO_IMAGE_SPACE = "./src/main/resources/space.png";
-    public static final String PATH_TO_IMAGE_HEART = "./src/main/resources/heart.png";
+    public static final String PATH_TO_IMAGE_HEART = "./src/main/resources/bob.png";
 }
