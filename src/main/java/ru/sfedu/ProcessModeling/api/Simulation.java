@@ -156,7 +156,7 @@ public class Simulation{
         //boxCollider.inert = true;
 
         BufferedImage image = ImageIO.read(new File("G:\\f\\app\\src\\main\\res\\drawable-nodpi\\artur.png"));
-        GraphicActor graphicActor = new GraphicActor(this, 100, 100, image);
+        RectangleGraphicActor rectangleGraphicActor = new RectangleGraphicActor(this, 100, 100, image);
 
         AnimatedActor animatedActor = new AnimatedActor();
         animatedActor.createAnimatedActor(this, 250, 200, 1, "D:\\Animated");

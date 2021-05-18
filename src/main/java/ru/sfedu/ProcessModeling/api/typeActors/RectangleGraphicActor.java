@@ -5,11 +5,11 @@ import ru.sfedu.ProcessModeling.api.Simulation;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GraphicActor extends RectangleActor {
+public class RectangleGraphicActor extends RectangleActor {
 
     BufferedImage image;
 
-    public GraphicActor(Simulation processing, float x, float y, BufferedImage image) {
+    public RectangleGraphicActor(Simulation processing, float x, float y, BufferedImage image) {
         super(processing, x, y, image.getWidth(), image.getHeight());
         this.image = image;
     }
