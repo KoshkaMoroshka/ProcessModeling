@@ -9,10 +9,7 @@ public class ProcessField extends JPanel {
     public ProcessField(Simulation processing){
         this.processing = processing;
         this.setLayout(null);
-        for(JButton button: processing.buttons)
-            this.add(button);
     }
-    int i = 0;
     @Override
     public void paint(Graphics g){
         super.paint(g);
@@ -20,7 +17,5 @@ public class ProcessField extends JPanel {
         processing.height = (float) g.getClipBounds().getHeight();
         for(Actor actor : processing.actors)
             actor.draw(g);
-        }
-
+    }
 }
-

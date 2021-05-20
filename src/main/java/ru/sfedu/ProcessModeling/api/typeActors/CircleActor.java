@@ -71,7 +71,7 @@ public class CircleActor extends Actor {
                 ss = (float) Math.sin(Math.PI * i/2);
                 points[0][k] = (width / 2 * (1 + cc));
                 points[1][k] = (height / 2 * (1 + ss));
-                c = cc; s=ss;
+                c = cc; s = ss;
                 cc = c * dc - s * ds;
                 ss = c * ds + s * dc;
                 k++;
@@ -94,12 +94,8 @@ public class CircleActor extends Actor {
 
             float res[][] = new float[2][k];
             for (int i = 0; i<k; i++){
-                res[0][i] = points[0][i];
-                res[1][i] = points[1][i];
-            }
-            for(int i=0; i<res[0].length; i++){
-                res[0][i] -= centerX;
-                res[1][i] -= centerY;
+                res[0][i] = points[0][i] - centerX;
+                res[1][i] = points[1][i] - centerY;
             }
             return res;
         } else {
@@ -139,12 +135,8 @@ public class CircleActor extends Actor {
             }
             float res[][] = new float[2][k];
             for (int i = 0; i<k; i++){
-                res[0][i] = points[0][i];
-                res[1][i] = points[1][i];
-            }
-            for(int i=0; i<res[0].length; i++){
-                res[0][i] -= centerX;
-                res[1][i] -= centerY;
+                res[0][i] = points[0][i] - centerX;
+                res[1][i] = points[1][i] - centerY;
             }
             return res;
         }

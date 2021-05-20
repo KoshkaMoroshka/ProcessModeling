@@ -25,14 +25,25 @@ public class MainMenu extends Simulation {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
         button.setLayout(null);
-        button.setBounds(60, 30, image_up.getWidth(), image_up.getHeight());
+        button.setBounds(windowWidth/2, windowHeight/2, image_up.getWidth(), image_up.getHeight());
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
                 button.setIcon(new ImageIcon(image_down));
             }
-        }
-    );
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                button.setIcon(new ImageIcon(image_up));
+            }
+        });
         buttons.add(button);
     }
 }

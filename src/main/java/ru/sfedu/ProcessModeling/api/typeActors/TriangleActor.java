@@ -28,7 +28,7 @@ public class TriangleActor extends Actor {
         graphics2D.rotate(-rotation);
         graphics2D.setColor(Color.blue);
         for (int i = 0; i<points[0].length; i++){
-            graphics2D.fillOval((int)points[0][i], (int)points[1][i], 4,4);
+            graphics2D.fillOval((int)points[0][i] - 4, (int)points[1][i] - 4, 4,4);
         }
         graphics2D.translate(-(centerX+x), -(centerY + y));
     }
@@ -52,7 +52,7 @@ public class TriangleActor extends Actor {
 
     @Override
     public float[][] getPoints(float width, float height) {
-        int countPointsEdge = (int)((Math.sqrt((width/2)*(width/2) + height*height))/MIN_WIDTH), countPointsGrounds = (int)(height/MIN_WIDTH);
+        int countPointsEdge = (int)((Math.sqrt((width/2)*(width/2) + height*height))/MIN_WIDTH), countPointsGrounds = (int)(width/MIN_WIDTH);
         float[][] points = new float[2][countPointsEdge*2 + countPointsGrounds + 3];
         masCornerX = new float[3];
         masCornerY = new float[3];
@@ -81,9 +81,6 @@ public class TriangleActor extends Actor {
             points[0][i] = points[0][i-1] - (width/2) / (countPointsEdge+1);
             points[1][i] = points[1][i-1] + height / (countPointsEdge+1);
         }
-
-
-
         return points;
     }
 

@@ -13,7 +13,7 @@ public class Main {
         //TestAnimation testAnimation = new TestAnimation(1000, 600, 20);
         //testAnimation.start();
 
-        //MainMenu menu = new MainMenu(300, 300, 20) ;
+        //MainMenu menu = new MainMenu(600, 600, 1) ;
         //menu.start();
 
         //CrashTestScene scene = new CrashTestScene(2000, 1000, 20);

@@ -24,7 +24,6 @@ public class Simulation{
     public ArrayList<Motion> motions = new ArrayList<>();
     public ArrayList<JButton> buttons = new ArrayList<>();
     public EventManager manager = new EventManager();
-    protected int keyCode;
     public float width, height;
     public int  windowWidth, windowHeight;
     public int timeToChangeFrame;
@@ -43,6 +42,8 @@ public class Simulation{
         createInitialObject();
         for (Actor actor: actors)
             actor.start();
+        for(JButton button: this.buttons)
+            processField.add(button);
         startTimer();
     }
 
@@ -59,7 +60,7 @@ public class Simulation{
      */
     public void createWindow(){
         processField = new ProcessField(this);
-        window = new JFrame("ProcessField");
+        window = new JFrame(this.getClass().getSimpleName());
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

@@ -30,6 +30,7 @@ public abstract class RigidObject{
     }
 
     float maxX, maxY, minX, minY;
+
     public void resolveRect(){
         maxX = points[0][0]; maxY = points[1][0]; minX = maxX; minY = maxY;
 
